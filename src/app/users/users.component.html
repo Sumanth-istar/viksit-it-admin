@@ -47,7 +47,7 @@
       </div>
     </div>
     <data-table [indexColumn]="false" [selectColumn]="true" [multiSelect]="true" [noDataMessage]="'Nothing to show.'" [header]="false"
-      [title]="'Users'" [substituteRows]="false" [items]="items" [itemCount]="itemCount" (reload)="reloadItems($event)">
+      [pageLimits]="limits" [title]="'Users'" [substituteRows]="false" [items]="items" [itemCount]="itemCount" (reload)="reloadItems($event)">
       <data-table-column [property]="'name'" [header]="'Name'" [sortable]="true">
       </data-table-column>
       <data-table-column property="email" header="Email" [sortable]="true" [width]="300">

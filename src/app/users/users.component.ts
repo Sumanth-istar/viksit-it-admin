@@ -40,6 +40,8 @@ export class UsersComponent implements OnInit {
   createUserFormData
   user: User = new User();
   isvalidModal;
+  limits = [10];
+
   constructor(private userservice: UserService, private modalService: NgbModal) {
 
   }

@@ -61,7 +61,6 @@
             </div>
           </div>
         </div>
-
         <div class="form-group col-6">
           <div class="row m-0">
             <div class="col-6">
@@ -76,8 +75,6 @@
               <span style="font-weight: initial;">Skill</span>
             </div>
           </div>
-
-
           <div class="card grp-skill">
             <div class="card-body">
               <div class="d-inline" *ngFor="let skill of skillList; index as i ">
@@ -86,9 +83,6 @@
                   <i class="fa fa-times grp-remove-icon" (click)="removeSkill(skill)" role="button"></i>
                 </button>
               </div>
-
-
-
             </div>
           </div>
         </div>
@@ -121,13 +115,7 @@
               <input type="checkbox" autocomplete="off"> {{skill.name}}
             </label>
           </div>
-
-
-
-
         </div>
-
-
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger grp-cre-button text-center">Update</button>
