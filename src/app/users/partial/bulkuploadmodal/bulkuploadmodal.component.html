@@ -1,0 +1,47 @@
+<div class="modal-header justify-content-center">
+  <div class="row w-100">
+    <div class="col-2"></div>
+    <div class="col-8 text-center">
+      <h3 class="modal-title blue-theme-color " id="userLabel">Bulk Upload
+      </h3>
+    </div>
+    <div class="col-2">
+      <button type="button" class="close" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="modal-body p-5">
+  <div class="jumbotron gray-bg">
+    <div class="form-row">
+      <div class="form-group col-12">
+        <label class="text-muted" for="inputEmail4">File *</label>
+        <input type="file" class="form-control " (change)="fileUpload($event)">
+        <a href="http://cdn.talentify.in:9999/assets/bulk_upload_users.xlsx" style="color: red">Download Template</a>
+        <span>
+          to know upload requirements</span>
+
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-6">
+        <label class="text-muted" for="inputEmail4">Assign License
+        </label>
+        <ng-select [ngModelOptions]="{standalone: true}" [multiple]="true" [items]="licenseData" bindLabel="name" bindValue="id"
+          [(ngModel)]="licenseId" placeholder="Select License">
+        </ng-select>
+
+      </div>
+
+      <div class="form-group col-6">
+        <label class="text-muted" for="inputEmail4">Assign Group
+        </label>
+        <ng-select [ngModelOptions]="{standalone: true}" [multiple]="true" [items]="groupData" bindLabel="name" bindValue="id" [(ngModel)]="groupId"
+          placeholder="Select Group">
+        </ng-select>
+
+      </div>
+    </div>
+  </div>
+</div>

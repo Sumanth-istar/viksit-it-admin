@@ -1,1 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+html, body {
+    margin: 0;
+    height: 100%;
+    font-family: 'Lato', sans-serif !important;
+}
+
+.data-column{
+    overflow: visible !important;
+    text-align: center;
+    padding: 5px !important;
+}
+.column-header{
+    text-align: center;
+}
+.data-table{
+    box-shadow: 0 0 15px #c5c5c5 !important;
+}
+
+.dropdown-menu-left-custom{
+    right: 0 !important; 
+    left: auto !important;
+}
+
+.column-header,.select-column-header{
+
+    background-color: white !important;
+}
+.themeColor{
+    color: #bd2130 !important;
+}
+
+.min-h-100{
+    min-height: 100% !important;
+}

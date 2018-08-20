@@ -1,0 +1,45 @@
+<app-nav [isActiveLink]="isActiveLink" [userProfile]="complex_object.studentProfile"></app-nav>
+<div class="jumbotron min-h-100 mb-0">
+  <div class="container-fulid h-100">
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group col-4">
+          <label class="text-muted" for="inputEmail4">Group Name*</label>
+          <input type="text" class="form-control" formControlName="name" name="name" id="name" placeholder="Group Name">
+          <!-- <app-error-field [displayError]="formErrors.name" errorMsg="{{formErrors.name}}">
+              </app-error-field> -->
+        </div>
+
+        <div class="form-group col-4">
+          <label class="text-muted" for="inputEmail4">Group Type*</label>
+
+          <ng-select [items]="groupTypsData" [multiple]="true" labelForId="groupType" placeholder="Select Group Type" formControlName="groupType">
+          </ng-select>
+          <!-- <app-error-field [displayError]="formErrors.mobile" errorMsg="{{formErrors.mobile}}">
+          </app-error-field> -->
+        </div>
+
+        <div class="form-group col-4">
+          <label class="text-muted" for="inputEmail4">Max No Of Students </label>
+          <input type="number" class="form-control" formControlName="students" name="students" id="students" placeholder="Total number of students">
+
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-6">
+          <label class="text-muted" for="inputEmail4">Add Skills</label>
+
+          <ng-select [items]="skillData" [typeahead]="skillSearch" bindLabel="name" groupBy="type" formControlName="skills">
+          </ng-select>
+          <app-error-field [displayError]="isSkillFound" errorMsg="Skill you are searching doesnot belong to the course you purchased via license">
+          </app-error-field>
+        </div>
+      </div>
+    </form>
+
+
+
+  </div>
+</div>

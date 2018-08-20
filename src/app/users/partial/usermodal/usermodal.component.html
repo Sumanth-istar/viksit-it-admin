@@ -1,0 +1,280 @@
+<div class="modal-header justify-content-center">
+  <div class="row w-100">
+    <div class="col-2"></div>
+    <div class="col-8 text-center">
+      <h3 class="modal-title blue-theme-color " id="userLabel">ADD NEW USER
+      </h3>
+    </div>
+    <div class="col-2">
+      <button type="button" class="close" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="modal-body p-5">
+
+  <ngb-tabset [justify]="currentJustify">
+    <ngb-tab>
+      <ng-template ngbTabTitle class="themeColor">Account Settings</ng-template>
+      <ng-template ngbTabContent>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label class="text-muted" for="inputEmail4">Full Name *</label>
+              <input type="text" class="form-control" formControlName="name" name="name" id="name" placeholder="Full Name">
+              <app-error-field [displayError]="formErrors.name" errorMsg="{{formErrors.name}}">
+              </app-error-field>
+            </div>
+
+            <div class="form-group col-6">
+              <label class="text-muted" for="inputEmail4">Email *</label>
+              <input type="email" class="form-control " id="email" formControlName="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+              <app-error-field [displayError]="formErrors.email" errorMsg="{{formErrors.email}}">
+              </app-error-field>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label class="text-muted" for="inputEmail4">Phone No *</label>
+              <input type="number" class="form-control" formControlName="mobile" name="mobile" id="mobile" placeholder="phone number">
+              <app-error-field [displayError]="formErrors.mobile" errorMsg="{{formErrors.mobile}}">
+              </app-error-field>
+            </div>
+
+
+            <div class="form-group col-6">
+              <label class="text-muted" for="inputEmail4">Pincode *</label>
+
+              <ng-select [items]="pinCodeData" [typeahead]="typeahead" bindLabel="itemName" bindValue="itemName" labelForId="pincode" placeholder="Search For PinCode"
+                formControlName="pincode">
+
+              </ng-select>
+              <app-error-field [displayError]="formErrors.pincode" errorMsg="{{formErrors.pincode}}">
+              </app-error-field>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label class="text-muted" for="inputEmail4">Address Line 1 *</label>
+              <input type="text" class="form-control " formControlName="address1" name="address1" id="address1" placeholder="Address line 1">
+              <app-error-field [displayError]="formErrors.address1" errorMsg="{{formErrors.address1}}">
+              </app-error-field>
+            </div>
+
+
+            <div class="form-group col-6">
+              <label class="text-muted" for="inputEmail4">Address Line 2 *</label>
+              <input type="text" class="form-control " id="address2" formControlName="address2" name="address2" aria-describedby="pincodeHelp"
+                placeholder="Address line 1">
+              <app-error-field [displayError]="formErrors.address2" errorMsg="{{formErrors.address2}}">
+              </app-error-field>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label class="text-muted" for="inputEmail4">User Type *</label>
+              <ng-select [multiple]="true" [items]="userTypeData" bindLabel="name" bindValue="id" labelForId="userType" placeholder="Select User Type"
+                formControlName="userType">
+              </ng-select>
+              <app-error-field [displayError]="formErrors.userType" errorMsg="{{formErrors.userType}}">
+              </app-error-field>
+            </div>
+
+            <div class="form-group col-6">
+              <label class="text-muted" for="inputEmail4">Organization *</label>
+
+              <ng-select [items]="orgData" [multiple]="true" bindLabel="name" bindValue="id" labelForId="org" placeholder="Select Organization"
+                formControlName="org">
+              </ng-select>
+
+              <app-error-field [displayError]="formErrors.org" errorMsg="{{formErrors.org}}">
+              </app-error-field>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label class="text-muted" for="inputEmail4">Job Role
+              </label>
+              <ng-select [items]="jobRoleData" bindLabel="text" bindValue="id" [multiple]="true" [(ngModel)]="jobRoleId" [ngModelOptions]="{standalone: true}"
+                placeholder="Select jobRole">
+              </ng-select>
+
+            </div>
+
+            <div class="form-group col-6">
+              <label class="text-muted" for="inputEmail4">Product/Business Unit/Department
+              </label>
+              <ng-select [ngModelOptions]="{standalone: true}" [multiple]="true" [items]="unitsData" bindLabel="name" bindValue="id" [(ngModel)]="unitsId"
+                placeholder="Select Product/Business Unit/Department">
+              </ng-select>
+
+            </div>
+          </div>
+
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label class="text-muted" for="inputEmail4">Assign License
+              </label>
+              <ng-select [ngModelOptions]="{standalone: true}" [multiple]="true" [items]="licenseData" bindLabel="name" bindValue="id"
+                [(ngModel)]="licenseId" placeholder="Select License">
+              </ng-select>
+
+            </div>
+
+            <div class="form-group col-6">
+              <label class="text-muted" for="inputEmail4">Assign Group
+              </label>
+              <ng-select [ngModelOptions]="{standalone: true}" [multiple]="true" [items]="groupData" bindLabel="name" bindValue="id" [(ngModel)]="groupId"
+                placeholder="Select Group">
+              </ng-select>
+
+            </div>
+          </div>
+
+          <div class="form-group p-1 m-3">
+            <button type="submit" class="btn btn-danger user-button" [disabled]="!form.valid">Add User</button>
+          </div>
+        </form>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab [disabled]="user.id != null ? false : true">
+      <ng-template ngbTabTitle>Add Skill</ng-template>
+      <ng-template ngbTabContent>
+        <div class="row">
+
+          <div class="col-12">
+            <label class="text-muted" for="inputEmail4">Assign Skill</label>
+            <ng-select [items]="skillData" [typeahead]="skillSearch" bindLabel="name" groupBy="type" [multiple]="true" [(ngModel)]="selectedSkill">
+            </ng-select>
+            <app-error-field [displayError]="isSkillFound" errorMsg="Skill you are searching doesnot belong to the course you purchased via license">
+            </app-error-field>
+            <button type="button" (click)="saveUserSkills()" class="btn btn-danger user-button mt-3">Add Skill</button>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab [disabled]="user.id != null ? false : true">
+      <ng-template ngbTabTitle>User Profile</ng-template>
+      <ng-template ngbTabContent>
+
+        <div class="container">
+          <div class="row ">
+            <div class="card custom-skill-profile-card justify-content-md-center mt-3 w-100">
+              <div class="card-block">
+                <div class="row justify-content-md-center">
+                  <div class="col-4 m-auto text-center ">
+                    <h1 class='custom-skill-profile-batch-raking'>{{'#'+studProfile.batchRank }}</h1>
+                    <h3 class="text-muted custom-skill-profile-batch-raking-title">Batch Rank
+                    </h3>
+                  </div>
+                  <div class="col-3 m-auto text-center ">
+                    <div class='row mx-auto text-center'>
+                      <img class='img-circle custom-skill-profile-img mx-auto' [src]='studProfile.profileImage' alt='{{studProfile.firstName}}'>
+                    </div>
+                    <div class='row'>
+                      <h1 class='custom-skill-profile-name mx-auto'>{{studProfile.firstName != '' && studProfile.firstName || studProfile.email}}</h1>
+
+
+                    </div>
+                  </div>
+                  <div class="col-4 m-auto text-center">
+                    <h1 class='custom-skill-profile-batch-raking'>{{studProfile.experiencePoints}}</h1>
+                    <h3 class="text-muted custom-skill-profile-batch-raking-title">XP Earned
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf='courses!=undefined && courses.length!=0' class="container">
+          <div class="row mt-2">
+            <h1 class='custom-dashboard-header '>Skills</h1>
+          </div>
+        </div>
+
+        <div *ngIf='courses==undefined || courses.length==0' class="container">
+          <div class="row w-100 mt-2">
+            <div class='card custom-skill-profile-card justify-content-md-center mt-lg-5'>
+              <h1 class='custom-dashboard-header w-100 text-center'>No Skills Are Associated.</h1>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf='courses!=undefined && courses.length!=0' class="container">
+          <div class="row ">
+            <div class="col-4 pl-0">
+
+
+              <div class='card justify-content-md-center card-active' *ngFor="let course of courses; index as i ">
+                <div class='card-block'>
+                  <div class='row m-0'>
+                    <div class='col-4 p-0'>
+                      <img class='custom-skill-tree-img-for-user' [src]='course.imageURL' alt='No Image Available'>
+                    </div>
+                    <div class='col-8 p-0 my-auto'>
+                      <h3 class='custom-skill-tree-title'>{{course.name}}</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+            <div class="col-8">
+              <div class="card custom-skill-tree-orguser-profile custom-scroll-holder">
+                <div class="card-block" id='skillTreeHolder'>
+                  <div class='container mt-5'>
+                    <div class='row'>
+                      <div class='col-12 custom-scroll-holder student-profile-tree-custom'>
+                        <!--  <ul id='tree1' class="">
+
+                          <li student-skill-setup ng-repeat="top_skill in skills">{{top_skill.name}}
+                            <small class='custom-skillprofile-xp_points'>
+                              {{top_skill.userPoints}} / {{top_skill.totalPoints}} XP &#9679; {{(top_skill.skills!=undefined && top_skill.skills.length!=0?top_skill.skills.length:0)}}
+                              subskills </small>
+                            <i class='point-div'></i>
+                            <div class='progress ml-5'>
+                              <div class='progress-bar custom-skillprofile-skill-progress' role='progressbar' ng-style="{ 'width': {{top_skill.percentage}} + '%' }"
+                                aria-valuenow='{{top_skill.percentage}}' aria-valuemin='0' aria-valuemax='100'></div>
+                            </div>
+
+                            <ul>
+
+
+                              <li ng-repeat="sub_skill in top_skill.skills" style='padding-left: 30px; padding-top: 13px;'>{{sub_skill.name}}
+                                <div class='progress ml-5'>
+                                  <div class='progress-bar custom-skillprofile-skill-progress' role='progressbar' ng-style="{ 'width': {{sub_skill.percentage}} + '%' }"
+                                    aria-valuenow='{{sub_skill.percentage}}' aria-valuemin='0' aria-valuemax='100'></div>
+                                </div>
+                              </li>
+
+
+                            </ul>
+                            <hr>
+                          </li>
+                        </ul> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+
+
+
+  <!--  -->
+</div>

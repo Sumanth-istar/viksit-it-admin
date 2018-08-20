@@ -1,0 +1,94 @@
+<app-nav [isActiveLink]="isActiveLink" [userProfile]="complex_object.studentProfile"></app-nav>
+<div class="jumbotron min-h-100 mb-0">
+  <div class="container-fulid h-100">
+    <div class="row m-0 mb-3">
+      <div class="col-3">
+        <div class="input-group mb-3 w-100">
+          <input type="text" class="form-control custom-border-right" (input)="searchTextFunction($event.target.value)" id="searchText"
+            placeholder="Search" aria-describedby="basic-addon1">
+          <div class="input-group-prepend">
+            <span class="input-group-text custom-bg-colour" id="basic-addon1">
+              <i class="fa fa-search " aria-hidden="true"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-5">
+
+        <div class="form-row">
+          <div class="form-group col-4">
+
+            <ng-select [ngModelOptions]="{standalone: true}" [multiple]="true" [items]="licenseData" bindLabel="name" bindValue="id"
+              [(ngModel)]="licenseIds" placeholder="Select License" (ngModelChange)="licenseFilter()">
+            </ng-select>
+
+          </div>
+
+          <div class="form-group col-4">
+
+            <ng-select [ngModelOptions]="{standalone: true}" [multiple]="true" [items]="groupData" bindLabel="name" bindValue="id" [(ngModel)]="groupIds"
+              placeholder="Select Group" (ngModelChange)="groupFilter()">
+            </ng-select>
+
+          </div>
+          <div class="form-group col-4">
+
+            <ng-select [ngModelOptions]="{standalone: true}" [items]="moreData" bindLabel="name" bindValue="id" [(ngModel)]="moreAction"
+              placeholder="Select More">
+            </ng-select>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <button type="button" (click)="open(content,'bulkupload')" class="btn btn-w-m btn-danger mr-2 float-right user-button p-0 m-0">Bulk Upload</button>
+        <button type="button" (click)="open(content,'user')" class="btn btn-w-m btn-danger mr-4 float-right user-button p-0 m-0 ">
+          <i class="fa fa-plus" style="font-size: 12px !important;"></i> Add User </button>
+      </div>
+    </div>
+    <data-table [indexColumn]="false" [selectColumn]="true" [multiSelect]="true" [noDataMessage]="'Nothing to show.'" [header]="false"
+      [title]="'Users'" [substituteRows]="false" [items]="items" [itemCount]="itemCount" (reload)="reloadItems($event)">
+      <data-table-column [property]="'name'" [header]="'Name'" [sortable]="true">
+      </data-table-column>
+      <data-table-column property="email" header="Email" [sortable]="true" [width]="300">
+      </data-table-column>
+      <data-table-column [property]="'mobile'" [header]="'Mobile'" [sortable]="true" [width]="150">
+      </data-table-column>
+      <data-table-column [property]="'state'" [header]="'State'" [width]="150">
+      </data-table-column>
+      <data-table-column [property]="'city'" [header]="'City'" [width]="150">
+      </data-table-column>
+      <data-table-column [property]="'groups'" [header]="'Groups'" [width]="150">
+      </data-table-column>
+      <data-table-column [property]="'license'" [header]="'License'" [width]="150">
+      </data-table-column>
+      <data-table-column class="custom-table" [width]="100">
+        <ng-template #dataTableCell let-item="item">
+
+          <div class="btn-group" dropdown>
+            <i class="fas fa-ellipsis-v" dropdownToggle></i>
+
+            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-left-custom" role="menu" aria-labelledby="button-basic">
+              <li role="menuitem">
+                <a class="dropdown-item" (click)="editUser(content,item.id,'user')">Edit</a>
+              </li>
+              <li class="divider dropdown-divider mt-1 mb-1"></li>
+              <li role="menuitem">
+                <a class="dropdown-item">Suspend</a>
+              </li>
+              <li class="divider dropdown-divider  mt-1 mb-1"></li>
+              <li role="menuitem">
+                <a class="dropdown-item" (click)="changePassword(content,item.id,'changepassword')">Change Pasword</a>
+              </li>
+            </ul>
+          </div>
+        </ng-template>
+      </data-table-column>
+    </data-table>
+    <ng-template #content let-c="close" let-d="dismiss">
+      <app-usermodal *ngIf="isvalidModal === 'user'" [createUserFormData]="createUserFormData" [user]="user"></app-usermodal>
+      <app-bulkuploadmodal *ngIf="isvalidModal  === 'bulkupload'" [createUserFormData]="createUserFormData"></app-bulkuploadmodal>
+      <app-changepassword *ngIf="isvalidModal  === 'changepassword'"></app-changepassword>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,148 @@
+<app-nav [isActiveLink]="isActiveLink" [userProfile]="complex_object.studentProfile"></app-nav>
+<div class="jumbotron min-h-100 mb-0">
+  <div class="container-fulid h-100">
+    <div class='row  mb-3'>
+      <div class="col-1 text-center pr-0 my-auto">
+        <img (click)="goBack()" src="/assets/images/group_back_arrow.png" class="layer">
+      </div>
+      <div class="col-11 text-center pl-0" *ngIf="groupDetail != undefined && groupDetail != null">
+        <div class='row'>
+          <div class=" roles_name">{{groupDetail.name}}</div>
+          <div class="roles_background px-2">{{groupDetail.group_type.split("_").join(" ")}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row m-0 mb-3" *ngIf="groupDetail != undefined && groupDetail != null">
+      <div class="card w-100" style="overflow: hidden;">
+        <div class="card-block p-4">
+          <div class='row m-0'>
+            <div class='col-2'>
+              <div>
+                <small class='text-muted' style="font-size: 14px;">Members</small>
+                <h4 class='mb-5'>{{groupDetail.members}}</h4>
+              </div>
+              <div>
+                <small class='text-muted ' style="font-size: 14px;">Created On
+                </small>
+                <h4>{{groupDetail.created_on}}</h4>
+              </div>
+            </div>
+            <div class="col-8" *ngIf="groupDetail.skills != undefined && groupDetail.skills != null">
+              <small class='text-muted ' style="font-size: 14px;">Skills</small>
+              <br>
+              <ul>
+                <li class='text-muted ' style="font-size: 15px;display: inline-block;" *ngFor="let skill of groupDetail.skills; index as i ">
+                  <div *ngIf="groupDetail.skills.length !=0">
+                    <i class='fa fa-circle text-muted' style='font-size: 10px; padding: 3px;'></i> {{skill}}
+                  </div>
+                </li>
+
+              </ul>
+              <ul>
+                <li class='text-muted ' *ngIf="groupDetail.skills.length ==0" style="font-size: 15px;">N/A</li>
+              </ul>
+            </div>
+            <div class='col-2 text-right'>
+              <div class="btn-group" dropdown>
+                <i class="fas fa-ellipsis-v" dropdownToggle></i>
+
+                <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-left-custom" role="menu" aria-labelledby="button-basic">
+                  <li role="menuitem">
+                    <a class="dropdown-item" (click)="editGroup()">Edit</a>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row m-0 mb-3">
+      <div class="col-3">
+        <div class="input-group mb-3 w-100">
+          <input type="text" class="form-control custom-border-right" (input)="searchTextFunction($event.target.value)" id="searchText"
+            placeholder="Search" aria-describedby="basic-addon1">
+          <div class="input-group-prepend">
+            <span class="input-group-text custom-bg-colour" id="basic-addon1">
+              <i class="fa fa-search " aria-hidden="true"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-5">
+
+        <div class="form-row">
+          <div class="form-group col-6">
+
+            <ng-select [ngModelOptions]="{standalone: true}" [multiple]="true" [items]="licenseData" bindLabel="name" bindValue="id"
+              [(ngModel)]="licenseIds" placeholder="Select License" (ngModelChange)="licenseFilter()">
+            </ng-select>
+
+          </div>
+          <div class="form-group col-6">
+
+            <ng-select [ngModelOptions]="{standalone: true}" [items]="moreData" bindLabel="name" bindValue="id" [(ngModel)]="moreAction"
+              placeholder="Select More">
+            </ng-select>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <button type="button" (click)="open(content,'bulkupload')" class="btn btn-w-m btn-danger mr-2 float-right user-button p-0 m-0">Bulk Upload</button>
+        <button type="button" (click)="open(content,'user')" class="btn btn-w-m btn-danger mr-4 float-right user-button p-0 m-0 ">
+          <i class="fa fa-plus" style="font-size: 12px !important;"></i> Add User </button>
+      </div>
+    </div>
+    <data-table [indexColumn]="false" [selectColumn]="true" [multiSelect]="true" [noDataMessage]="'Nothing to show.'" [header]="false"
+      [title]="'Users'" [substituteRows]="false" [items]="items" [itemCount]="itemCount" (reload)="reloadItems($event)">
+      <data-table-column [property]="'name'" [header]="'Name'" [sortable]="true">
+      </data-table-column>
+      <data-table-column property="email" header="Email" [sortable]="true" [width]="300">
+      </data-table-column>
+      <data-table-column [property]="'mobile'" [header]="'Mobile'" [sortable]="true" [width]="150">
+      </data-table-column>
+      <data-table-column [property]="'state'" [header]="'State'" [width]="150">
+      </data-table-column>
+      <data-table-column [property]="'city'" [header]="'City'" [width]="150">
+      </data-table-column>
+      <data-table-column [property]="'groups'" [header]="'Groups'" [width]="150">
+      </data-table-column>
+      <data-table-column [property]="'license'" [header]="'License'" [width]="150">
+      </data-table-column>
+      <data-table-column class="custom-table" [width]="100">
+        <ng-template #dataTableCell let-item="item">
+
+          <div class="btn-group" dropdown>
+            <i class="fas fa-ellipsis-v" dropdownToggle></i>
+
+            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-left-custom" role="menu" aria-labelledby="button-basic">
+              <li role="menuitem">
+                <a class="dropdown-item" (click)="editUser(content,item.id,'user')">Edit</a>
+              </li>
+              <li class="divider dropdown-divider mt-1 mb-1"></li>
+              <li role="menuitem">
+                <a class="dropdown-item">Suspend</a>
+              </li>
+              <li class="divider dropdown-divider  mt-1 mb-1"></li>
+              <li role="menuitem">
+                <a class="dropdown-item" (click)="changePassword(content,item.id,'changepassword')">Change Pasword</a>
+              </li>
+            </ul>
+          </div>
+        </ng-template>
+      </data-table-column>
+    </data-table>
+    <ng-template #content let-c="close" let-d="dismiss">
+      <app-usermodal *ngIf="isvalidModal === 'user'" [createUserFormData]="createUserFormData" [user]="user"></app-usermodal>
+      <app-bulkuploadmodal *ngIf="isvalidModal  === 'bulkupload'" [createUserFormData]="createUserFormData"></app-bulkuploadmodal>
+      <app-changepassword *ngIf="isvalidModal  === 'changepassword'"></app-changepassword>
+    </ng-template>
+  </div>
+</div>

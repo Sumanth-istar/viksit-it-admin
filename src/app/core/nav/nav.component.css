@@ -1,0 +1,33 @@
+.navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link {
+    color:  #eb384f;
+}
+.custom-navbar-brand-css{
+    color: #ffffff;
+    background-color: #eb384f;
+    border-color: #eb384f;
+}
+.active-color{
+    color: #eb384f !important;
+    font-weight: bold;
+}
+
+.nav-link{
+    font-size: 13px;
+    text-align: left;
+}
+
+.navbar-light .navbar-brand:focus, .navbar-light .navbar-brand:hover {
+    color: #ffffff;
+}
+
+.custom-pointer{
+    cursor: pointer;
+}
+
+.nav-item{
+    margin-left: 30px;
+}
+
+.navbar{
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+}

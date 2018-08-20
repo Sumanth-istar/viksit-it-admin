@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-md navbar-light bg-white box-shadow-custom-css p-0">
+  <a class="navbar-brand custom-navbar-brand-css p-2" href="#">
+    Talentify
+  </a>
+  <button class="navbar-toggler navbar-toggler-right" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" data-toggle="collapse"
+    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div [ngbCollapse]="isNavbarCollapsed" class="navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link custom-pointer" [ngClass]="{'active-color': isActiveLink === 'dashboard'}" (click)="navBarLinks('dashboard')"
+          [routerLinkActive]="['active']">Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link custom-pointer" [ngClass]="{'active-color': isActiveLink === 'users'}" (click)="navBarLinks('users')"
+          [routerLinkActive]="['active']">Users
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link custom-pointer" [ngClass]="{'active-color': isActiveLink === 'groups'}" (click)="navBarLinks('groups')"
+          [routerLinkActive]="['active']">Groups
+        </a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto mr-4">
+      <li class="nav-item float-right">
+        <img [src]="profilePic" class="img-circle img-md custom-img" width="40" height="40">
+      </li>
+      <li ngbDropdown class="nav-item dropdown float-right">
+        <a ngbDropdownToggle class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          Welcome {{username}}
+        </a>
+        <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <button class="dropdown-item" (click)="navBarLinks('logout')">Logout</button>
+          <button class="dropdown-item" (click)="navBarLinks('profile')">Profile</button>
+        </div>
+      </li>
+    </ul>
+
+
+  </div>
+</nav>

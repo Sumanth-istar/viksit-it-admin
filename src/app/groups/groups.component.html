@@ -1,0 +1,91 @@
+<app-nav [isActiveLink]="isActiveLink" [userProfile]="complex_object.studentProfile"></app-nav>
+<div class="jumbotron min-h-100 mb-0">
+  <div class="container-fulid h-100">
+
+    <div class="row justify-content-md-center m-0 mb-3">
+
+
+      <div class='col-4 p-0'>
+        <h4>Groups</h4>
+      </div>
+      <div class='col-8 '>
+
+        <div class="form-row">
+          <div class="form-group col-4">
+
+            <ng-select [ngModelOptions]="{standalone: true}" [multiple]="true" [items]="groupsType" [(ngModel)]="groupType" placeholder="Select Group By Type"
+              (ngModelChange)="groupTypesFilter()">
+            </ng-select>
+
+          </div>
+
+          <div class="form-group col-4">
+
+            <ng-select [ngModelOptions]="{standalone: true}" [multiple]="true" [items]="groupData" [(ngModel)]="groupIds" placeholder="Select Group By Name"
+              (ngModelChange)="groupFilter()">
+            </ng-select>
+
+          </div>
+          <div class="form-group col-4 text-right">
+
+            <button type="button" class="btn btn-danger" (click)="createGroup()">Create Group</button>
+
+          </div>
+        </div>
+
+
+
+
+
+      </div>
+
+
+
+    </div>
+
+
+    <div class="row group_holder grid" *ngIf="groups != undefined && groups != null && groups.length != 0">
+
+      <div class='col-3 mb-3' *ngFor="let group of groups; index as i ">
+        <div class='card group-card-shadow' style='height: 301px;' (click)="goToGroupDetail(group.id)">
+          <div class='card-header m-2' style='background-color: #ffffff;'>
+            <div class='row'>
+              <div class='col-8'>
+                <h3 style='font-weight: bold; color: #eb384f !important;font-size: 17.5px'>{{(group.name.length >= 18) ? group.name.slice(0,18)+'...': group.name}}</h3>
+              </div>
+              <div class='col-4 my-auto'>
+                <span class='badge badge-warning' style='float: right; color: white; font-size: 11px;'>{{group.group_type.split("_").join(" ")}}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class='card-block m-4'>
+            <small class='text-muted' style="font-size: 14px !important;">Member</small>
+            <h4 class="mb-2 mt-2" style="font-size: 15px">{{group.members}}</h4>
+            <small class='text-muted' style="font-size: 14px !important;">Skills</small>
+            <ul style="height: 75px; overflow: hidden;">
+              <div *ngFor="let skill_list of group.skills; index as j">
+
+                <li *ngIf='group.skills != 0 && j < 3' class=' mt-2' style="display: inline-block;">
+                  <i class='fa fa-circle text-muted' style='font-size: 10px; padding: 3px;'></i>{{(skill_list.length >= 18) ? skill_list.slice(0,18)+'...': skill_list}}</li>
+              </div>
+
+              <li *ngIf='group.skills == 0' class='mr-1 mt-2' style="font-size: 14px !important;">N/A</li>
+
+            </ul>
+            <div class="row">
+              <div class='col-6'>
+                <div *ngIf='group.skills.length > 3' class='text-center' style="font-size: 14px !important;font-weight: bold;">+ {{group.skills.length - 3 }} more</div>
+              </div>
+              <div class='col-6'>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>

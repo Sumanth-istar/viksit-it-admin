@@ -1,0 +1,37 @@
+<div class="jumbotron h-100 mb-0 text-center">
+  <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="large" color="#fff" type="ball-atom"></ngx-spinner>
+
+  <div class="container h-100">
+    <div class="row">
+      <div class="col-md-12 col-lg-4 m-auto">
+        <div class="card align-middle box-shadow-custom-css p-3">
+          <div class="card-block">
+            <img class="" width="100" height="100" src="../assets/images/talentify_logo.png" alt="Card image cap" />
+            <h2 class="text-center m-4 welcome-text">Welcome</h2>
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="form-group p-1 m-3" [ngClass]="displayFieldCss('email')">
+                <input type="email" class="form-control " id="exampleInputEmail1" formControlName="email" name="email" aria-describedby="emailHelp"
+                  placeholder="Enter email">
+                <app-error-field [displayError]="isFieldValid('email')" errorMsg="Please enter a valid email">
+                </app-error-field>
+              </div>
+              <div class="form-group p-1 m-3" [ngClass]="displayFieldCss('password')">
+                <input type="password" class="form-control " formControlName="password" name="password" id="exampleInputPassword1" placeholder="Password">
+                <app-error-field [displayError]="isFieldValid('password')" errorMsg="Please enter the password with min-length 4">
+                </app-error-field>
+              </div>
+              <div class="form-group p-1 m-3">
+                <button type="submit" class="btn btn-danger w-100" [disabled]="!form.valid">Login</button>
+              </div>
+              <p class="m-t text-center p-1 m-2">
+                <small>ISTAR Skill Development Pvt. Ltd. &copy; 2018</small>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <swal #loginerrorSwal title="Oops..." text="Something went wrong!" type="error">
+    </swal>
+  </div>
+</div>
