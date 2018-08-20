@@ -7,21 +7,21 @@
         <div class="form-group col-4">
           <label class="text-muted" for="inputEmail4">Group Name*</label>
           <input type="text" class="form-control" formControlName="name" name="name" id="name" placeholder="Group Name">
-          <!-- <app-error-field [displayError]="formErrors.name" errorMsg="{{formErrors.name}}">
-              </app-error-field> -->
+          <app-error-field [displayError]="formErrors.name" errorMsg="{{formErrors.name}}">
+          </app-error-field>
         </div>
 
         <div class="form-group col-4">
           <label class="text-muted" for="inputEmail4">Group Type*</label>
 
-          <ng-select [items]="groupTypsData" [multiple]="true" labelForId="groupType" placeholder="Select Group Type" formControlName="groupType">
+          <ng-select [items]="groupTypsData" labelForId="groupType" placeholder="Select Group Type" formControlName="groupType">
           </ng-select>
-          <!-- <app-error-field [displayError]="formErrors.mobile" errorMsg="{{formErrors.mobile}}">
-          </app-error-field> -->
+          <app-error-field [displayError]="formErrors.groupType" errorMsg="{{formErrors.groupType}}">
+          </app-error-field>
         </div>
 
         <div class="form-group col-4">
-          <label class="text-muted" for="inputEmail4">Max No Of Students </label>
+          <label class="text-muted" for="inputEmail4">Max No of Students </label>
           <input type="number" class="form-control" formControlName="students" name="students" id="students" placeholder="Total number of students">
 
         </div>
@@ -29,17 +29,110 @@
 
       <div class="form-row">
         <div class="form-group col-6">
-          <label class="text-muted" for="inputEmail4">Add Skills</label>
+          <div class="row m-0 w-100">
+            <div class="col-12">
+              <label class="text-muted" for="inputEmail4">Add Skills</label>
 
-          <ng-select [items]="skillData" [typeahead]="skillSearch" bindLabel="name" groupBy="type" formControlName="skills">
-          </ng-select>
-          <app-error-field [displayError]="isSkillFound" errorMsg="Skill you are searching doesnot belong to the course you purchased via license">
-          </app-error-field>
+              <ng-select [items]="skillData" [typeahead]="skillSearch" (ngModelChange)="AddSkills()" bindLabel="name" groupBy="type" formControlName="skills">
+              </ng-select>
+              <app-error-field [displayError]="isSkillFound" errorMsg="Skill you are searching doesnot belong to the course you purchased via license">
+              </app-error-field>
+            </div>
+          </div>
+          <div class="row m-0 w-100">
+            <div class="col-12">
+              <h6 class='grp-title-or float-left m-0 mt-2'>Or</h6>
+              <hr class='line float-right m-auto mb-2'>
+            </div>
+          </div>
+          <div class="row m-0 w-100">
+            <div class="col-12">
+              <label class="text-muted" for="inputEmail4">Scan Job Description</label>
+              <textarea [ngModelOptions]="{standalone: true}" class="form-control" [(ngModel)]="job_description" id="exampleFormControlTextarea1"
+                rows="10" ngM placeholder="Paste Job Description Here..."></textarea>
+              <app-error-field [displayError]="isJobDescriptionFound" errorMsg="Please Paste the Job Description">
+              </app-error-field>
+            </div>
+          </div>
+          <div class="row m-0 float-right">
+            <div class="form-group p-1 m-3">
+              <button type="button" (click)="open(content)" class="btn btn-danger grp-scn-button text-center">Scan</button>
+              <button type="submit" class="btn btn-danger  grp-cre-button ml-4 text-center" [disabled]="!form.valid">{{submitBtnText}}</button>
+            </div>
+          </div>
         </div>
+
+        <div class="form-group col-6">
+          <div class="row m-0">
+            <div class="col-6">
+              <label class="text-muted" for="inputEmail4">Selected Skills</label>
+            </div>
+            <div class="col-6 text-right">
+              <span class="badge badge-default mr-1 b-Wizard custom-legends-masterylevel-css" style="display: inline-block;">
+              </span>
+              <span style="font-weight: initial;">Course</span>
+              <span class="badge badge-default b-Master ml-3 mr-1 custom-legends-masterylevel-css" style="display: inline-block;">
+              </span>
+              <span style="font-weight: initial;">Skill</span>
+            </div>
+          </div>
+
+
+          <div class="card grp-skill">
+            <div class="card-body">
+              <div class="d-inline" *ngFor="let skill of skillList; index as i ">
+                <button type="button" [ngClass]="skill.type === 'COURSE' ? 'b-Wizard' : 'b-Master'" class="btn btn-danger btn-sm  mt-3 ml-3 ">
+                  {{skill.name}}
+                  <i class="fa fa-times grp-remove-icon" (click)="removeSkill(skill)" role="button"></i>
+                </button>
+              </div>
+
+
+
+            </div>
+          </div>
+        </div>
+
       </div>
+
     </form>
 
 
+    <ng-template #content let-c="close" let-d="dismiss">
+      <div class="modal-header justify-content-center">
+        <div class="row w-100">
+          <div class="col-2"></div>
+          <div class="col-8 text-center">
+            <h3 class="modal-title blue-theme-color " id="userLabel">RECOMMEND SKILLS FOR JOB DESCRIPTION
+            </h3>
+          </div>
+          <div class="col-2">
+            <button type="button" type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body p-5">
+        <div class="d-inline">
 
+          <div class="btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-outline-danger btn-sm  mt-3 ml-3" *ngFor="let skill of jobDecList; index as i " [ngClass]="skill.type === 'COURSE' ? 'b-Wizard-outline' : 'b-Master-outline'">
+              <input type="checkbox" autocomplete="off"> {{skill.name}}
+            </label>
+          </div>
+
+
+
+
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger grp-cre-button text-center">Update</button>
+
+      </div>
+    </ng-template>
   </div>
 </div>

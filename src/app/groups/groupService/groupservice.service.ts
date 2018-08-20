@@ -22,4 +22,21 @@ export class GroupserviceService {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
     });
   }
+
+  public getEditGroupDetails(groupId) {
+
+    return this.http.get(AppConfiguration.ServerWithApiUrl + 'group/edit/' + groupId, {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
+    });
+  }
+
+
+  public getJobDescriptionDetails(skills, orgId) {
+
+    const body = new HttpParams()
+      .set('skill_object', JSON.stringify(skills));
+    return this.http.post(AppConfiguration.ServerWithApiUrl + 'group/skills/' + orgId, body, {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
+    });
+  }
 }

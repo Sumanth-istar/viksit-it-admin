@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableResource, DataTable } from 'angular5-data-table';
 import { UserService } from './userservice/user.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { User } from '../core/pojo/user';
 
 @Component({
@@ -19,6 +19,7 @@ export class UsersComponent implements OnInit {
   @ViewChild(DataTable) userTable: DataTable;
   counter = 1;
   orgID;
+  modalHeader
   public groupData = [];
   public moreData = [{
     id: '0',
@@ -69,6 +70,15 @@ export class UsersComponent implements OnInit {
 
   }
   open(content, value) {
+
+
+    if (value === 'user') {
+      this.modalHeader = "ADD NEW USER";
+    } else if (value === 'bulkupload') {
+      this.modalHeader = "BULK UPLOAD";
+    } else if (value === 'changepassword') {
+      this.modalHeader = "CHANGE PASSWORD";
+    }
 
     this.isvalidModal = value;
     this.user = new User();
@@ -135,6 +145,7 @@ export class UsersComponent implements OnInit {
 
   editUser(content, usrId, value) {
     this.isvalidModal = value;
+    this.modalHeader = "EDIT USER";
     console.log(usrId);
     this.userservice.getUserDetails(usrId).subscribe(
       // Successful responses call the first callback.
@@ -153,6 +164,7 @@ export class UsersComponent implements OnInit {
 
   changePassword(content, usrId, value) {
     this.isvalidModal = value;
+    this.modalHeader = "CHANGE PASSWORD";
     console.log(usrId);
     this.userservice.getUserDetails(usrId).subscribe(
       // Successful responses call the first callback.

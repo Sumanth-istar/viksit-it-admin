@@ -1,0 +1,79 @@
+.grp-skill {
+    height: 402px;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.b-Wizard {
+    background-color: #fd6d81;
+}
+
+.custom-legends-masterylevel-css {
+    width: 14px;
+    height: 15px;
+}
+
+.b-Master {
+    background-color: #7295fd;
+}
+
+.grp-title-or {
+    width: 20px;
+    height: 19px;
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.3px;
+    text-align: left;
+    color: #4a4a4a;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    border: solid 1px rgba(151, 151, 151, 0.14);
+}
+
+.grp-scn-button {
+    width: 140px;
+    height: 40px;
+    border-radius: 4px;
+    font-family: 'Lato', sans-serif;
+    border-color: #e00a25 !important;
+    background-color: rgba(134, 142, 150, 0) !important;
+    border: solid 1px #eb384f !important;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0.4px;
+    text-align: left;
+    color: #eb384f !important;
+}
+
+.grp-cre-button {
+    width: 140px;
+    height: 40px;
+    border-radius: 4px;
+    background-color: #eb384f !important;
+    border-color: #eb384f !important;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0.4px;
+    text-align: left;
+    color: #ffffff !important;
+}
+
+.blue-theme-color {
+    font-family: 'Lato', sans-serif;
+    font-weight: bolder;
+    color: #23b6f9;
+    font-size: 17px;
+}
+
+
+.b-Master-outline {
+    border: 1px solid #7295fd !important;
+}
+
+.b-Wizard-outline {
+    border: 1px solid #fd6d81 !important;
+}
