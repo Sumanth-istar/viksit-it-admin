@@ -8,6 +8,7 @@ import { UsersComponent } from './users/users.component';
 import { GroupsComponent } from './groups/groups.component';
 import { ViewGroupDetailsComponent } from './groups/partials/view-group-details/view-group-details.component';
 import { CreateEditGroupComponent } from './groups/partials/create-edit-group/create-edit-group.component';
+import { ManagerHierarchyComponent } from './manager/manager-hierarchy/manager-hierarchy.component';
 
 const routes: Routes = [{ path: '', redirectTo: '/app-login', pathMatch: 'full', canActivate: [AuthGuard] },
 { path: 'app-login', component: LoginComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [{ path: '', redirectTo: '/app-login', pathMatch: 'full',
 { path: 'app-groups', component: GroupsComponent },
 { path: 'app-view-group-details/:id', component: ViewGroupDetailsComponent },
 { path: 'app-create-edit-group/:id', component: CreateEditGroupComponent },
+{ path: 'app-manager-hierarchy', component: ManagerHierarchyComponent },
 
 
 

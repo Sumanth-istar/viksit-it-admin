@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
   @ViewChild('loginerrorSwal') private loginerrorSwal: SwalComponent;
   loginError: string;
+  welcome = 'Welcome';
   constructor(private router: Router, private route: ActivatedRoute, private spinner: NgxSpinnerService, private auth: AuthService) { }
 
   ngOnInit() {

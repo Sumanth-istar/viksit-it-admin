@@ -1,0 +1,41 @@
+<app-nav [isActiveLink]="isActiveLink" [userProfile]="complex_object.studentProfile"></app-nav>
+<div class="jumbotron min-h-100 mb-0">
+  <div class="container-fulid h-100">
+    <div class="row">
+      <div class="col-6">
+
+        <div class="ngx-dnd-container h-100" (drop)="mainDrop($event)" ngxDroppable="restricted-target2" [model]="targetItems">
+          <div class="ngx-dnd-item card p-3 cursor_pointer" ngxDraggable="['restricted-target2']" [model]="item" *ngFor="let item of targetItems; index as i ">
+            <div class="row m-0">
+              <button *ngIf="currentIndex != i" type="button" class="btn btn-sm mr-3" (click)="isCollapsed(i)">
+                <i *ngIf="currentIndex != i" class="fas fa-plus"></i>
+              </button>
+              <button *ngIf="currentIndex == i" type="button" class="btn btn-sm mr-3" (click)="isCollapsed(i)">
+                <i *ngIf="currentIndex == i" class="fas fa-minus"></i>
+              </button>
+              {{item.label}}</div>
+            <div data-id="collapseExample_{{item.id}}" class="collapse m-2 customtoggle" [ngClass]="currentIndex == i  ? 'show' : ''">
+              <div class="ngx-dnd-container min-h-25 ml-4 style-3 " (over)="builderDrop($event,i)" [removeOnSpill]="true" ngxDroppable="restricted-target1"
+                [model]="item.children">
+                <div class="ngx-dnd-item card  p-2 mb-2 cursor_pointer mx-2" ngxDraggable="['restricted-target1']" [model]="childitem" *ngFor="let childitem of item.children">{{childitem.label}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-6 ">
+        <h2>Manager List</h2>
+        <div class="ngx-dnd-container mb-5" ngxDroppable="restricted-target2" [model]="managers">
+          <div class="ngx-dnd-item card p-3 cursor_pointer" ngxDraggable="['restricted-target2']" [model]="item" *ngFor="let item of managers">{{item.label}}</div>
+        </div>
+        <h2>Associates List</h2>
+        <div class="ngx-dnd-container mb-5" [copy]="true" ngxDroppable="restricted-target1" [model]="associates">
+          <div class="ngx-dnd-item card p-3 cursor_pointer" ngxDraggable="['restricted-target1']" [model]="item1" *ngFor="let item1 of associates">{{item1.label}}</div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

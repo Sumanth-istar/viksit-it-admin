@@ -1,0 +1,7 @@
+.min-h-25{
+    min-height: 130px;
+    max-height: 130px;
+    overflow-y: auto;
+}
+
+.cursor_pointer{cursor: pointer;}

@@ -24,6 +24,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ChangepasswordComponent } from './users/partial/changepassword/changepassword.component';
 import { ViewGroupDetailsComponent } from './groups/partials/view-group-details/view-group-details.component';
 import { CreateEditGroupComponent } from './groups/partials/create-edit-group/create-edit-group.component';
+import { ManagerHierarchyComponent } from './manager/manager-hierarchy/manager-hierarchy.component';
+import { NgxDnDModule } from '@swimlane/ngx-dnd';
 
 
 @NgModule({
@@ -40,7 +42,8 @@ import { CreateEditGroupComponent } from './groups/partials/create-edit-group/cr
     BulkuploadmodalComponent,
     ChangepasswordComponent,
     ViewGroupDetailsComponent,
-    CreateEditGroupComponent
+    CreateEditGroupComponent,
+    ManagerHierarchyComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +58,8 @@ import { CreateEditGroupComponent } from './groups/partials/create-edit-group/cr
     NgbModule.forRoot(),
     DataTableModule.forRoot(),
     Select2Module,
-    NgSelectModule
+    NgSelectModule,
+    NgxDnDModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -33,7 +33,6 @@ export class UsersComponent implements OnInit {
   public groupIds: string;
   public licenseIds: string;
   public searchText: string = "";
-  public options: Select2Options;
   closeResult: string;
   isCreateEditUserModal = false;
   isBulkUserModal = false;

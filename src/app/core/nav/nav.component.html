@@ -23,6 +23,12 @@
           [routerLinkActive]="['active']">Groups
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link custom-pointer" [ngClass]="{'active-color': isActiveLink === 'manager'}" (click)="navBarLinks('manager')"
+          [routerLinkActive]="['active']">Manager
+        </a>
+      </li>
+
     </ul>
     <ul class="navbar-nav ml-auto mr-4">
       <li class="nav-item float-right">
