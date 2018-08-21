@@ -31,22 +31,28 @@ describe('LoginComponent', () => {
 
 
   fit("should have welcome text 'welcome'", () => {
+
     expect(component.welcome).toBeTruthy();
+
   });
 
 
-  it(`should call the onSubmit method`, async(() => {
+  fit(`should not call the onSubmit method`, async(() => {
+
     spyOn(component, 'onSubmit');
     el = fixture.debugElement.query(By.css('button')).nativeElement;
     el.click();
-    expect(component.onSubmit).toHaveBeenCalled();
+    expect(component.onSubmit).not.toHaveBeenCalled();
+
   }));
 
 
   fit(`form should be valid`, async(() => {
+
     component.form.controls['email'].setValue('boi_admin@istarindia.com');
     component.form.controls['password'].setValue('test123');
     expect(component.form.valid).toBeTruthy();
+
   }));
 
   fit(`form should be invalid`, async(() => {
@@ -61,12 +67,15 @@ describe('LoginComponent', () => {
     component.form.controls['email'].setValue('boi_admin@istarindia.com');
     component.form.controls['password'].setValue('123');
     expect(component.form.valid).toBeFalsy();
+
   }));
 
   fit(`email should be valid`, async(() => {
+
     component.form.controls['email'].setValue('boi_admin');
     component.form.controls['password'].setValue('test123');
     expect(component.form.valid).toBeFalsy();
+
   }));
 
 
