@@ -142,7 +142,7 @@
         </div>
       </ng-template>
     </ngb-tab>
-    <ngb-tab [disabled]="user.id != null ? false : true">
+    <ngb-tab [disabled]="(user.id != null && studProfile != null) ? false : true">
       <ng-template ngbTabTitle>User Profile</ng-template>
       <ng-template ngbTabContent>
 
