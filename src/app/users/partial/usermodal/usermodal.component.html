@@ -147,7 +147,7 @@
       <ng-template ngbTabContent>
 
         <div class="container">
-          <div class="row ">
+          <div class="row " *ngIf="studProfile != null">
             <div class="card custom-skill-profile-card justify-content-md-center mt-3 w-100">
               <div class="card-block">
                 <div class="row justify-content-md-center">
@@ -161,7 +161,8 @@
                       <img class='img-circle custom-skill-profile-img mx-auto' [src]='studProfile.profileImage' alt='{{studProfile.firstName}}'>
                     </div>
                     <div class='row'>
-                      <h1 class='custom-skill-profile-name mx-auto'>{{studProfile.firstName != '' && studProfile.firstName || studProfile.email}}</h1>
+                      <h1 class='custom-skill-profile-name mx-auto'>{{studProfile.firstName != '' && studProfile.firstName
+                        || studProfile.email}}</h1>
 
 
                     </div>
@@ -173,6 +174,11 @@
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+          <div class="row mt-2" *ngIf="studProfile == null">
+            <div class="col-12 text-center">
+              <h1 class='custom-dashboard-header text-danger '>User is Suspended</h1>
             </div>
           </div>
         </div>
