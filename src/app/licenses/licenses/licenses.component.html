@@ -1,0 +1,62 @@
+<app-nav [isActiveLink]="isActiveLink" [userProfile]="complex_object.studentProfile"></app-nav>
+<div class="jumbotron min-h-100 mb-0">
+  <div class="container-fulid h-100">
+    <div class="row m-0 mb-3 ">
+      <div class="col-12 float-right">
+        <button type="button" (click)="open(content)" class="btn btn-w-m btn-danger mr-4 float-right user-button p-0 m-0 ">
+          <i class="fas fa-shopping-cart"></i> Buy License</button>
+      </div>
+
+    </div>
+    <div class="row m-0">
+      <data-table [indexColumn]="false" [noDataMessage]="'Nothing to show.'" [header]="false" [pageLimits]="limits" [title]="'Users'"
+        [substituteRows]="false" [items]="items" [itemCount]="itemCount" (reload)="reloadItems($event)">
+        <data-table-column [property]="'id'" [header]="'id'" [sortable]="true" [width]="100">
+        </data-table-column>
+        <data-table-column [property]="'name'" [header]="'Name'" [sortable]="true" [width]="150">
+        </data-table-column>
+        <data-table-column property="total_count" header="Total License" [sortable]="true" [width]="150">
+        </data-table-column>
+        <data-table-column [property]="'available_count'" [header]="'Available License'" [sortable]="true" [width]="150">
+        </data-table-column>
+        <data-table-column [property]="'purchase_date'" [header]="'Purchase Date'" [width]="150">
+        </data-table-column>
+        <data-table-column [property]="'expiry_date'" [header]="'Expiry Date'" [width]="150">
+        </data-table-column>
+        <data-table-column [property]="'amount'" [header]="'Amount'" [width]="150">
+        </data-table-column>
+        <data-table-column class="custom-table" [width]="100">
+          <ng-template #dataTableCell let-item="item">
+
+            <div class="btn-group" dropdown>
+              <i class="fas fa-ellipsis-v" dropdownToggle></i>
+
+              <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-left-custom" role="menu" aria-labelledby="button-basic">
+                <li role="menuitem">
+                  <a class="dropdown-item" (click)="editUser(content,item.id)">Edit</a>
+                </li>
+              </ul>
+            </div>
+          </ng-template>
+        </data-table-column>
+      </data-table>
+    </div>
+    <ng-template #content let-c="close" let-d="dismiss">
+      <div class="modal-header justify-content-center">
+        <div class="row w-100">
+          <div class="col-2"></div>
+          <div class="col-8 text-center">
+            <h3 class="modal-title blue-theme-color " id="userLabel">Buy License</h3>
+          </div>
+          <div class="col-2">
+            <button type="button" type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body p-5"></div>
+    </ng-template>
+
+  </div>
+</div>

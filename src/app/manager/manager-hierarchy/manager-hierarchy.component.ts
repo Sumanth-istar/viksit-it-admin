@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DrakeStoreService } from '../../../../node_modules/@swimlane/ngx-dnd';
+import { ManagerService } from '../managerService/manager.service';
 
 @Component({
   selector: 'app-manager-hierarchy',
@@ -12,89 +12,91 @@ export class ManagerHierarchyComponent implements OnInit {
   isActiveLink = 'manager'
   currentIndex = 0;
   showHide = true;
-  managers =
-    [
-      {
-        "label": "Sales Manager 1",
-        "id": 0,
-        "children": []
-      },
-      {
-        "label": "Sales Manager 2",
-        "id": 1,
-        "children": []
-      },
-      {
-        "label": "Sales Manager 3",
-        "id": 2,
-        "children": []
-      }
-    ]
+  isExist = false;
+  organizationID
+  managers = []
+  targetItems = []
+  associates = []
+  isCollapsedM = true;
+  isCollapsedR = true;
 
-  targetItems = [
-    {
-      "label": "Sales Manager 4",
-      "id": 4,
-      "children": [
-        {
-          "label": "Sales Associate 4",
-          "id": 4
-        }
-      ]
-    }
-  ]
-
-  associates =
-    [
-      {
-        "label": "Sales Associate 1",
-        "id": 5,
-      },
-      {
-        "label": "Sales Associate 2",
-        "id": 6,
-      },
-      {
-        "label": "Sales Associate 3",
-        "id": 7,
-      }
-    ]
-
-
-  constructor(private drakeStore: DrakeStoreService) { }
+  constructor(private managerService: ManagerService) { }
 
   ngOnInit() {
 
     const local_complex_object = localStorage.getItem('currentUser')
     this.complex_object = JSON.parse(local_complex_object);
+    this.organizationID = this.complex_object.studentProfile.org_details[0].id
 
+    this.getManagerHierarchy();
+
+  }
+
+  getManagerHierarchy() {
+
+    this.managerService.getManagerHierarchy(this.organizationID)
+      .subscribe(data => {
+
+        console.log(data['data']);
+
+        this.targetItems = data['data'].targetArray;
+        this.managers = data['data'].sourceManagerArray;
+        this.associates = data['data'].sourceReporteesArray
+
+      }, (err) => {
+        console.log('error', err);
+
+      });
 
 
   }
 
-  isCollapsed(i) {
+  isCollapsed(i, action) {
     this.currentIndex = i;
+    if (action == 'show') {
+      this.showHide = true;
+    } else if (action == 'close') {
+      this.showHide = false;
+    }
   }
 
-  public mainDrop(event) {
-    console.log(event);
-  }
-
-  public builderDrop(event, index) {
+  public checkUserExists(event, index) {
     console.log(event);
     console.log(index);
 
-    console.log(this.targetItems);
+    for (let i in this.targetItems[index].children)
+      if (event.value.id == this.targetItems[index].children[i].id) {
 
-    let titemsList = this.targetItems[index];
+        this.targetItems[index].children.splice(i, 1);
+        console.log(this.targetItems);
 
-    for (let item of titemsList.children)
+        setTimeout(() => {
+          alert("User already Assigned to this Manager");
+        }, 500);
 
-      if (event.value.id == item.id) {
-        alert("already exists");
-        (this.drakeStore as any).drake.cancel(true);
       }
-
   }
 
+  removeUser(managerIndex, reporteeIndex) {
+    this.targetItems[managerIndex].children.splice(reporteeIndex, 1);
+  }
+
+  onSubmit() {
+    console.log(this.targetItems);
+    this.managerService.saveManagerHierarchy(this.targetItems, this.organizationID).subscribe(
+      // Successful responses call the first callback.
+      data => {
+        console.log(data['data']);
+        this.targetItems = data['data'].targetArray;
+        this.managers = data['data'].sourceManagerArray;
+        this.associates = data['data'].sourceReporteesArray
+
+      },
+      // Errors will call this callback instead:
+      err => {
+        console.log('Something went wrong!');
+      });
+
+
+  }
 }

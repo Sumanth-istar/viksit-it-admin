@@ -26,6 +26,7 @@ import { ViewGroupDetailsComponent } from './groups/partials/view-group-details/
 import { CreateEditGroupComponent } from './groups/partials/create-edit-group/create-edit-group.component';
 import { ManagerHierarchyComponent } from './manager/manager-hierarchy/manager-hierarchy.component';
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
+import { LicensesComponent } from './licenses/licenses/licenses.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { NgxDnDModule } from '@swimlane/ngx-dnd';
     ChangepasswordComponent,
     ViewGroupDetailsComponent,
     CreateEditGroupComponent,
-    ManagerHierarchyComponent
+    ManagerHierarchyComponent,
+    LicensesComponent
   ],
   imports: [
     BrowserModule,

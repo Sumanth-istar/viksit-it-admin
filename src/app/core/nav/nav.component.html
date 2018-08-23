@@ -28,6 +28,11 @@
           [routerLinkActive]="['active']">Manager
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link custom-pointer" [ngClass]="{'active-color': isActiveLink === 'licenses'}" (click)="navBarLinks('licenses')"
+          [routerLinkActive]="['active']">Licenses
+        </a>
+      </li>
 
     </ul>
     <ul class="navbar-nav ml-auto mr-4">

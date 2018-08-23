@@ -33,7 +33,6 @@ export class UserService {
     const body = new HttpParams()
       .set('start', params.offset)
       .set('length', params.limit)
-      .set('groupsId', '')
       .set('draw', counter.toString())
       .set('search[value]', searchText)
       .set('order[0][dir]', sort)

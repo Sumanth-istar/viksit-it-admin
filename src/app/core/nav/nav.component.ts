@@ -51,6 +51,10 @@ export class NavComponent implements OnInit {
       case 'manager':
         this.router.navigate(['/app-manager-hierarchy'], { relativeTo: this.route });
         break;
+      case 'licenses':
+        this.router.navigate(['/app-licenses'], { relativeTo: this.route });
+        break;
+
 
     }
 

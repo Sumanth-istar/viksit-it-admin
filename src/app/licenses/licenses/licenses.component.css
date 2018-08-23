@@ -1,0 +1,11 @@
+.user-button {
+    width: 130px;
+    height: 50px;
+    border-radius: 4px;
+    background-color: #eb384f;
+    border: none;
+    font-size: 14px;
+    outline: none;
+    font-family: 'Lato', sans-serif;
+    float: right;
+}
