@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import 'rxjs/add/operator/delay';
 import { CustomValidatorsService } from '../../userservice/custom-validators.service';
@@ -14,6 +14,7 @@ import { User } from '../../../core/pojo/user';
 })
 export class UsermodalComponent implements OnInit {
 
+  @Output() updateParent = new EventEmitter();
   form: FormGroup;
   @Input() createUserFormData;
   @Input() user: User
@@ -73,6 +74,12 @@ export class UsermodalComponent implements OnInit {
       this.userSkill(this.user.id);
       this.userProfile(this.user.id);
 
+      this.licenseData = this.user.licenses
+      this.groupData = this.user.groups;
+      this.jobRoleData = this.user.job_roles;
+      this.unitsData = this.user.units
+
+
       for (let group of this.user.groups) {
         if (group.is_mapped) {
           this.groupId.push(group.id);
@@ -104,8 +111,6 @@ export class UsermodalComponent implements OnInit {
         }
       }
 
-
-
     }
 
     this.form = new FormGroup({
@@ -116,7 +121,7 @@ export class UsermodalComponent implements OnInit {
       address2: new FormControl(this.user.address_line_2, Validators.compose([Validators.required])),
       pincode: new FormControl(this.user.pincode, Validators.compose([Validators.required])),
       userType: new FormControl(this.userTypes, Validators.compose([Validators.required])),
-      org: new FormControl(this.orgId, Validators.compose([Validators.required])),
+      org: new FormControl(this.orgId.length != 0 ? this.orgId[0] : null, Validators.compose([Validators.required])),
     });
 
     this.form.valueChanges.subscribe((data) => {
@@ -130,12 +135,6 @@ export class UsermodalComponent implements OnInit {
 
     this.orgData = this.createUserFormData.organizations
     this.userTypeData = this.createUserFormData.user_types
-    this.licenseData = this.createUserFormData.licenses
-    this.groupData = this.createUserFormData.groups;
-    this.jobRoleData = this.createUserFormData.job_roles;
-    this.unitsData = this.createUserFormData.units
-
-
   }
 
   pinCodeSearchFilter() {
@@ -226,6 +225,108 @@ export class UsermodalComponent implements OnInit {
         this.courses = null;
         console.log('Something went wrong!');
       });
+  }
+
+
+  changeOrg() {
+
+    console.log(this.form.get('org').value);
+    let orgID = this.form.get('org').value;
+    if (orgID != undefined && orgID != null) {
+      this.getUserCreationFormFields(orgID);
+    }
+  }
+
+
+  getUserCreationFormFields(orgID) {
+
+    this.userService.getNewUserCreationFormFields(orgID).subscribe(
+      data => {
+
+        console.log(data['data']);
+        this.orgData = data['data'].organizations
+        this.licenseData = data['data'].licenses
+        this.groupData = data['data'].groups;
+        this.jobRoleData = data['data'].job_roles;
+        this.unitsData = data['data'].units
+
+      },
+      err => {
+
+        console.log('Something went wrong!');
+
+      }
+    );
+
+  }
+
+  onSubmit() {
+    if (this.form.valid) {
+      this.updateParentFunction('turn_on_loader', null)
+
+      let organizations = [{ id: this.form.get('org').value }];
+      let user_types = [];
+      let job_roles = [];
+      let units = [];
+      let licenses = [];
+      let groups = [];
+
+      this.form.get('userType').value.forEach(element => {
+        user_types.push({ id: element });
+      });
+      this.jobRoleId.forEach(element => {
+        job_roles.push({ id: element });
+      });
+      this.unitsId.forEach(element => {
+        units.push({ id: element });
+      });
+      this.groupId.forEach(element => {
+        groups.push({ id: element });
+      });
+      this.licenseId.forEach(element => {
+        licenses.push({ id: element });
+      });
+
+      let user_object = {
+        name: this.form.get('name').value,
+        email: this.form.get('email').value,
+        mobile: this.form.get('mobile').value,
+        pincode: this.form.get('pincode').value,
+        address_line_1: this.form.get('address1').value,
+        address_line_2: this.form.get('address2').value,
+        job_roles: job_roles,
+        units: units,
+        licenses: licenses,
+        groups: groups,
+        user_types: user_types,
+        organizations: organizations
+      };
+
+      console.log(user_object);
+
+
+      this.userService.createUser(this.organizationID, user_object).subscribe(
+        data => {
+          console.log(data['message']);
+          this.updateParentFunction('turn_off_loader', { message: data['message'], type: "SUCCESS" });
+        },
+        err => {
+          console.log('Something went wrong!');
+          this.updateParentFunction('turn_off_loader', { message: 'Something went wrong!', type: "ERROR" });
+        }
+      );
+
+
+    }
+  }
+
+
+  updateParentFunction(action, value) {
+    let data = new Array<String>();
+    data.push(action);
+    data.push(value)
+    this.updateParent.emit(data)
+
   }
 
 

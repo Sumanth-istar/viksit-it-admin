@@ -131,5 +131,24 @@ export class UserService {
   }
 
 
+  public createUser(orgId, user_object) {
+
+    const body = new HttpParams()
+      .set('user_object', JSON.stringify(user_object));
+    return this.http.post(AppConfiguration.ServerWithApiUrl + 'user/create/' + orgId, body, {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
+    });
+  }
+
+  public suspendUser(user_ids) {
+
+    const body = new HttpParams()
+      .set('user_ids', JSON.stringify(user_ids));
+    return this.http.post(AppConfiguration.ServerWithApiUrl + 'user/suspend/', body, {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
+    });
+  }
+
+
 }
 

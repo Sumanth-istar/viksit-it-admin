@@ -1,5 +1,14 @@
 <app-nav [isActiveLink]="isActiveLink" [userProfile]="complex_object.studentProfile"></app-nav>
 <div class="jumbotron min-h-100 mb-0">
+  <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="large" color="#fff" type="ball-atom"></ngx-spinner>
+  <swal #success_and_warning_errorSwal title="{{alertTitle}}" text="{{alertMessage}}" type="{{alertType}}">
+  </swal>
+
+  <swal #suspendWarning title="Warning" text="Are You Sure ? Do You To Suspend This User" type="question" [showCancelButton]="true"
+    [focusCancel]="true" (confirm)="suspendUser()">
+  </swal>
+
+
   <div class="container-fulid h-100">
     <div class="row m-0 mb-3">
       <div class="col-3">
@@ -33,19 +42,23 @@
           </div>
           <div class="form-group col-4">
             <ng-select [ngModelOptions]="{standalone: true}" [items]="moreData" bindLabel="name" bindValue="id" [(ngModel)]="moreAction"
-              placeholder="Select More">
+              (ngModelChange)="onMoreFilterChange()" placeholder="Select More">
             </ng-select>
           </div>
         </div>
       </div>
       <div class="col-4">
-        <button type="button" (click)="open(content,'bulkupload')" class="btn btn-w-m btn-danger mr-2 float-right user-button p-0 m-0">Bulk Upload</button>
+        <button type="button" (click)="open(content,'bulkupload')" class="btn btn-w-m btn-danger mr-2 float-right user-button p-0 m-0">Bulk
+          Upload
+        </button>
         <button type="button" (click)="open(content,'user')" class="btn btn-w-m btn-danger mr-4 float-right user-button p-0 m-0 ">
           <i class="fa fa-plus" style="font-size: 12px !important;"></i> Add User </button>
       </div>
     </div>
     <data-table [indexColumn]="false" [selectColumn]="true" [multiSelect]="true" [noDataMessage]="'Nothing to show.'" [header]="false"
       [pageLimits]="limits" [title]="'Users'" [substituteRows]="false" [items]="items" [itemCount]="itemCount" (reload)="reloadItems($event)">
+      <data-table-column [property]="'id'" [header]="'Id'">
+      </data-table-column>
       <data-table-column [property]="'name'" [header]="'Name'" [sortable]="true">
       </data-table-column>
       <data-table-column property="email" header="Email" [sortable]="true" [width]="300">
@@ -72,7 +85,7 @@
               </li>
               <li class="divider dropdown-divider mt-1 mb-1"></li>
               <li role="menuitem">
-                <a class="dropdown-item">Suspend</a>
+                <a class="dropdown-item" (click)="suspendWarningFunction(item.id)">Suspend</a>
               </li>
               <li class="divider dropdown-divider  mt-1 mb-1"></li>
               <li role="menuitem">
@@ -98,7 +111,8 @@
           </div>
         </div>
       </div>
-      <app-usermodal *ngIf="isvalidModal === 'user'" [createUserFormData]="createUserFormData" [user]="user"></app-usermodal>
+      <app-usermodal (updateParent)="createEditUserUpdateHandler($event)" *ngIf="isvalidModal === 'user'" [createUserFormData]="createUserFormData"
+        [user]="user"></app-usermodal>
       <app-bulkuploadmodal *ngIf="isvalidModal  === 'bulkupload'" [createUserFormData]="createUserFormData"></app-bulkuploadmodal>
       <app-changepassword *ngIf="isvalidModal  === 'changepassword'"></app-changepassword>
     </ng-template>

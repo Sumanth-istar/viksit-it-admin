@@ -1,5 +1,4 @@
 <div class="modal-body p-5">
-
   <ngb-tabset [justify]="currentJustify">
     <ngb-tab>
       <ng-template ngbTabTitle class="themeColor">Account Settings</ng-template>
@@ -71,7 +70,7 @@
             <div class="form-group col-6">
               <label class="text-muted" for="inputEmail4">Organization *</label>
 
-              <ng-select [items]="orgData" [multiple]="true" bindLabel="name" bindValue="id" labelForId="org" placeholder="Select Organization"
+              <ng-select [items]="orgData" (ngModelChange)="changeOrg()" bindLabel="name" bindValue="id" labelForId="org" placeholder="Select Organization"
                 formControlName="org">
               </ng-select>
 
