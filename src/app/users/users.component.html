@@ -114,7 +114,7 @@
       <app-usermodal (updateParent)="createEditUserUpdateHandler($event)" *ngIf="isvalidModal === 'user'" [createUserFormData]="createUserFormData"
         [user]="user"></app-usermodal>
       <app-bulkuploadmodal *ngIf="isvalidModal  === 'bulkupload'" [createUserFormData]="createUserFormData"></app-bulkuploadmodal>
-      <app-changepassword *ngIf="isvalidModal  === 'changepassword'"></app-changepassword>
+      <app-changepassword (updateParent)="createEditUserUpdateHandler($event)" *ngIf="isvalidModal  === 'changepassword'" [user]="user"></app-changepassword>
     </ng-template>
   </div>
 </div>

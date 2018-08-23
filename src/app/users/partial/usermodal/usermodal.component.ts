@@ -303,30 +303,43 @@ export class UsermodalComponent implements OnInit {
       };
 
       console.log(user_object);
+      if (this.user.id != null) {
+
+        this.userService.updateUser(this.user.id, this.organizationID, user_object).subscribe(
+          data => {
+            console.log(data['message']);
+            this.updateParentFunction('turn_off_loader', { message: data['message'], type: "SUCCESS" });
+          },
+          err => {
+            console.log('Something went wrong!');
+            this.updateParentFunction('turn_off_loader', { message: 'Something went wrong!', type: "ERROR" });
+          }
+        );
 
 
-      this.userService.createUser(this.organizationID, user_object).subscribe(
-        data => {
-          console.log(data['message']);
-          this.updateParentFunction('turn_off_loader', { message: data['message'], type: "SUCCESS" });
-        },
-        err => {
-          console.log('Something went wrong!');
-          this.updateParentFunction('turn_off_loader', { message: 'Something went wrong!', type: "ERROR" });
-        }
-      );
 
+      } else {
 
+        this.userService.createUser(this.organizationID, user_object).subscribe(
+          data => {
+            console.log(data['message']);
+            this.updateParentFunction('turn_off_loader', { message: data['message'], type: "SUCCESS" });
+          },
+          err => {
+            console.log('Something went wrong!');
+            this.updateParentFunction('turn_off_loader', { message: 'Something went wrong!', type: "ERROR" });
+          }
+        );
+
+      }
     }
   }
-
 
   updateParentFunction(action, value) {
     let data = new Array<String>();
     data.push(action);
     data.push(value)
     this.updateParent.emit(data)
-
   }
 
 

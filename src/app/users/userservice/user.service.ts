@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AppConfiguration } from '../../config/app.config';
+import { Md5 } from 'ts-md5/dist/md5';
 
 @Injectable({
   providedIn: 'root'
@@ -116,6 +117,15 @@ export class UserService {
     });
   }
 
+  public resetUserPassword(Id, password) {
+
+    let md5Password = Md5.hashStr(password);
+
+    return this.http.get(AppConfiguration.ServerWithApiUrl + 'user/reset_password/' + Id + '/' + md5Password, {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
+    });
+  }
+
 
   public bulkUpload(fileString, fileFormat) {
 
@@ -136,6 +146,15 @@ export class UserService {
     const body = new HttpParams()
       .set('user_object', JSON.stringify(user_object));
     return this.http.post(AppConfiguration.ServerWithApiUrl + 'user/create/' + orgId, body, {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
+    });
+  }
+
+  public updateUser(userId, orgId, user_object) {
+
+    const body = new HttpParams()
+      .set('user_object', JSON.stringify(user_object));
+    return this.http.post(AppConfiguration.ServerWithApiUrl + 'user/update/' + userId + '/' + orgId, body, {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
     });
   }

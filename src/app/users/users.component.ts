@@ -213,10 +213,10 @@ export class UsersComponent implements OnInit {
         this.success_and_warning_errorSwal.type = "error";
         this.success_and_warning_errorSwal.title = "ERROR"
         this.success_and_warning_errorSwal.text = event[1].message;
-        this.alertMessage = event[1].message;
         this.success_and_warning_errorSwal.show();
       }
     }
+    this.reloadItems({ offset: 0, limit: 10 })
   }
   //more filter
   onMoreFilterChange() {
@@ -237,13 +237,10 @@ export class UsersComponent implements OnInit {
       }
 
     }
-
-
   }
 
 
   suspendWarningFunction(userId) {
-
     this.suspendedIds = [];
     this.suspendedIds.push(userId);
     this.suspendWarning.show()
@@ -258,7 +255,7 @@ export class UsersComponent implements OnInit {
         console.log(data['message']);
         let result = ['turn_off_loader', { message: data['message'], type: "SUCCESS" }];
         this.createEditUserUpdateHandler(result)
-        this.reloadItems({ offset: 0, limit: 10 })
+
       },
       err => {
         console.log('Something went wrong!');

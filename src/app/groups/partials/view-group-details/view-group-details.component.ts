@@ -5,6 +5,8 @@ import { User } from '../../../core/pojo/user';
 import { UserService } from '../../../users/userservice/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GroupserviceService } from '../../groupService/groupservice.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { SwalComponent } from '@toverux/ngx-sweetalert2';
 
 @Component({
   selector: 'app-view-group-details',
@@ -15,8 +17,12 @@ export class ViewGroupDetailsComponent implements OnInit {
 
   complex_object
   isActiveLink = 'groups'
+  modalHeader
+  currentModalInstance: any;
+  public moreAction: string;
   itemResource = new DataTableResource([]);
   items = [];
+  suspendedIds = [];
   itemCount = 0;
   @ViewChild(DataTable) userTable: DataTable;
   counter = 1;
@@ -41,7 +47,9 @@ export class ViewGroupDetailsComponent implements OnInit {
   createUserFormData
   user: User = new User();
   isvalidModal;
-  constructor(private router: Router, private route: ActivatedRoute, private userservice: UserService, private modalService: NgbModal, private groupService: GroupserviceService) {
+  @ViewChild('success_and_warning_errorSwal') private success_and_warning_errorSwal: SwalComponent;
+  @ViewChild('suspendWarning') private suspendWarning: SwalComponent;
+  constructor(private spinner: NgxSpinnerService, private router: Router, private route: ActivatedRoute, private userservice: UserService, private modalService: NgbModal, private groupService: GroupserviceService) {
     this.groupIds = this.route.snapshot.params.id;
   }
 
@@ -86,11 +94,21 @@ export class ViewGroupDetailsComponent implements OnInit {
   }
   open(content, value) {
 
+
+    if (value === 'user') {
+      this.modalHeader = "ADD NEW USER";
+    } else if (value === 'bulkupload') {
+      this.modalHeader = "BULK UPLOAD";
+    } else if (value === 'changepassword') {
+      this.modalHeader = "CHANGE PASSWORD";
+    }
+
     this.isvalidModal = value;
     this.user = new User();
 
-    this.modalService.open(content, { size: 'lg' });
+    this.currentModalInstance = this.modalService.open(content, { size: 'lg' });
   }
+
 
   reloadItems(params) {
 
@@ -151,6 +169,7 @@ export class ViewGroupDetailsComponent implements OnInit {
 
   editUser(content, usrId, value) {
     this.isvalidModal = value;
+    this.modalHeader = "EDIT USER";
     console.log(usrId);
     this.userservice.getUserDetails(usrId).subscribe(
       // Successful responses call the first callback.
@@ -169,6 +188,7 @@ export class ViewGroupDetailsComponent implements OnInit {
 
   changePassword(content, usrId, value) {
     this.isvalidModal = value;
+    this.modalHeader = "CHANGE PASSWORD";
     console.log(usrId);
     this.userservice.getUserDetails(usrId).subscribe(
       // Successful responses call the first callback.
@@ -182,6 +202,77 @@ export class ViewGroupDetailsComponent implements OnInit {
         console.log('Something went wrong!');
       }
     );
+  }
+
+  createEditUserUpdateHandler(event) {
+    if (event[0] == 'turn_on_loader') {
+      this.spinner.show();
+    } else if (event[0] == 'turn_off_loader') {
+      this.spinner.hide();
+      if (event[1].type == 'SUCCESS') {
+        this.success_and_warning_errorSwal.type = "success";
+        this.success_and_warning_errorSwal.title = "SUCCESS"
+        this.success_and_warning_errorSwal.text = event[1].message;
+        this.success_and_warning_errorSwal.show();
+        if (this.currentModalInstance != undefined) {
+          this.currentModalInstance.close();
+        }
+
+      } else if (event[1].type == 'ERROR') {
+        this.success_and_warning_errorSwal.type = "error";
+        this.success_and_warning_errorSwal.title = "ERROR"
+        this.success_and_warning_errorSwal.text = event[1].message;
+        this.success_and_warning_errorSwal.show();
+      }
+    }
+    this.reloadItems({ offset: 0, limit: 10 })
+  }
+  //more filter
+  onMoreFilterChange() {
+    this.suspendedIds = [];
+    if (this.moreAction == '1') {
+      for (let selected of this.userTable.selectedRows) {
+        console.log(selected.item.id);
+        this.suspendedIds.push(selected.item.id);
+      }
+
+      if (this.suspendedIds.length != 0) {
+        this.suspendWarning.show();
+      } else {
+        this.success_and_warning_errorSwal.type = "warning";
+        this.success_and_warning_errorSwal.title = "Warning"
+        this.success_and_warning_errorSwal.text = "Please Select User From The Table";
+        this.success_and_warning_errorSwal.show();
+      }
+
+    }
+  }
+
+
+  suspendWarningFunction(userId) {
+    this.suspendedIds = [];
+    this.suspendedIds.push(userId);
+    this.suspendWarning.show()
+  }
+
+  suspendUser() {
+
+    let user_ids = { "ids": this.suspendedIds }
+
+    this.userservice.suspendUser(user_ids).subscribe(
+      data => {
+        console.log(data['message']);
+        let result = ['turn_off_loader', { message: data['message'], type: "SUCCESS" }];
+        this.createEditUserUpdateHandler(result)
+
+      },
+      err => {
+        console.log('Something went wrong!');
+        let result = ['turn_off_loader', { message: 'Something went wrong!', type: "ERROR" }];
+        this.createEditUserUpdateHandler(result)
+      }
+    );
+
   }
 
 

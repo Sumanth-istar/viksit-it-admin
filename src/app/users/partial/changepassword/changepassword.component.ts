@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UserService } from '../../userservice/user.service';
+import { User } from '../../../core/pojo/user';
 
 @Component({
   selector: 'app-changepassword',
@@ -10,7 +12,10 @@ export class ChangepasswordComponent implements OnInit {
 
   change_password: FormGroup;
   isValidPassword = false;
-  constructor() { }
+  @Input() user: User;
+  @Output() updateParent = new EventEmitter();
+
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
 
@@ -26,4 +31,28 @@ export class ChangepasswordComponent implements OnInit {
       ? null : { 'mismatch': true };
   }
 
+  updateParentFunction(action, value) {
+    let data = new Array<String>();
+    data.push(action);
+    data.push(value)
+    this.updateParent.emit(data)
+  }
+
+  changePassword() {
+
+    let password = this.change_password.get('newPassword').value
+    this.change_password.get('confirmPassword').value
+
+    this.userService.resetUserPassword(this.user.id, password).subscribe(
+      data => {
+        console.log(data['message']);
+        this.updateParentFunction('turn_off_loader', { message: data['message'], type: "SUCCESS" });
+      },
+      err => {
+        console.log('Something went wrong!');
+        this.updateParentFunction('turn_off_loader', { message: 'Something went wrong!', type: "ERROR" });
+      }
+    );
+
+  }
 }
