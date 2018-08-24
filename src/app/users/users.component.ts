@@ -40,8 +40,6 @@ export class UsersComponent implements OnInit {
   public searchText: string = "";
   @ViewChild('success_and_warning_errorSwal') private success_and_warning_errorSwal: SwalComponent;
   @ViewChild('suspendWarning') private suspendWarning: SwalComponent;
-
-
   alertTitle = "Oops...";
   alertMessage = "Something went wrong!";
   alertType = "error";

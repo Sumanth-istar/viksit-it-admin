@@ -50,11 +50,11 @@ export class GroupserviceService {
     });
   }
 
-  public updateGroup(userId, orgId, group_object) {
+  public updateGroup(groupId, group_object) {
 
     const body = new HttpParams()
       .set('group_object', JSON.stringify(group_object));
-    return this.http.post(AppConfiguration.ServerWithApiUrl + 'group/update/' + userId + '/' + orgId, body, {
+    return this.http.post(AppConfiguration.ServerWithApiUrl + 'group/update/' + groupId, body, {
       observe: 'response',
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
     });

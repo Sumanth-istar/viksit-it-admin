@@ -71,9 +71,28 @@
 
 
 .b-Master-outline {
-    border: 1px solid #7295fd !important;
+    color:  #7295fd !important;
+    border: 1.5px solid #7295fd !important;
+    border-radius: 5px;
 }
 
 .b-Wizard-outline {
-    border: 1px solid #fd6d81 !important;
+    color:  #fd6d81 !important;
+    border: 1.5px solid #fd6d81 !important;
+    border-radius: 5px;
+}
+
+.b-Master-outline.active {
+    color:  #ffffff !important;
+    border: 1.5px solid #7295fd !important;
+    border-radius: 5px;
+    background-color: #7295fd !important;
+  
+}
+
+.b-Wizard-outline.active {
+    color:  #ffffff !important;
+    border: 1.5px solid #fd6d81 !important;
+    border-radius: 5px;
+    background-color: #fd6d81 !important;
 }

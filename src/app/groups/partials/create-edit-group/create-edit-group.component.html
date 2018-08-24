@@ -110,17 +110,16 @@
       </div>
       <div class="modal-body p-5">
         <div class="d-inline">
-
-          <div class="btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-outline-danger btn-sm  mt-3 ml-3" *ngFor="let skill of jobDecList; index as i " [ngClass]="skill.type === 'COURSE' ? 'b-Wizard-outline' : 'b-Master-outline'">
-              <input type="checkbox" autocomplete="off"> {{skill.name}}
+          <div class="btn-group btn-group-toggle d-inline" *ngIf="jobDecList.length != 0">
+            <label class="btn mt-3 ml-3 " ngbButtonLabel *ngFor="let skill of jobDecList; index as i " [ngClass]="skill.type === 'COURSE' ? 'b-Wizard-outline' : 'b-Master-outline'">
+              <input type="checkbox" (change)="skillSelected(skill)" [value]="skill" ngbButton> {{skill.name}}
             </label>
           </div>
+          <h6 class="text-danger" *ngIf="jobDecList.length == 0">{{skillerrorMessage}}</h6>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger grp-cre-button text-center">Update</button>
-
+        <button type="button" class="btn btn-danger grp-cre-button text-center" (click)="updateSkill()">Update</button>
       </div>
     </ng-template>
   </div>

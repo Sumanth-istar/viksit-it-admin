@@ -22,6 +22,7 @@ export class CreateEditGroupComponent implements OnInit {
   alertType = "error";
   isActiveLink = 'groups'
   orgID
+  skillerrorMessage;
   groupTypsData = ["UNIT",
     "PRODUCT",
     "SALES_TEAM",
@@ -31,6 +32,8 @@ export class CreateEditGroupComponent implements OnInit {
   skillSearch = new EventEmitter<string>();
   skillData = [];
   skillList = [];
+  tempSkillList = [];
+  currentModalInstance: any;
   jobDecList = [];
   job_description = "";
   groupDetail;
@@ -86,7 +89,7 @@ export class CreateEditGroupComponent implements OnInit {
 
     if (this.job_description) {
       this.isJobDescriptionFound = false;
-      this.modalService.open(content, { size: 'lg' });
+      this.currentModalInstance = this.modalService.open(content, { size: 'lg' });
       console.log(this.job_description);
       let skills = { skills: this.job_description }
       this.groupService.getJobDescriptionDetails(skills, this.orgID)
@@ -96,13 +99,15 @@ export class CreateEditGroupComponent implements OnInit {
           this.jobDecList = [];
           this.jobDecList = data['data']
 
+
           if (this.jobDecList[0].message) {
-            // this.isSkillFound = true;
+            this.skillerrorMessage = this.jobDecList[0].message;
+            this.jobDecList = [];
           }
         }, (err) => {
           console.log('error', err);
           this.jobDecList = [];
-          // this.isSkillFound = true; 
+          this.skillerrorMessage = 'Something went wrong!';
         });
 
 
@@ -155,8 +160,20 @@ export class CreateEditGroupComponent implements OnInit {
     console.log(this.form.value.skills);
     if (this.form.value.skills != null) {
       this.skillList.push(this.form.value.skills)
+
     }
 
+  }
+
+  skillSelected(skill) {
+    this.tempSkillList.push(skill);
+  }
+
+  updateSkill() {
+    for (let skill of this.tempSkillList) {
+      this.skillList.push(skill)
+    }
+    this.currentModalInstance.close();
   }
 
   onSubmit() {
@@ -174,12 +191,29 @@ export class CreateEditGroupComponent implements OnInit {
 
     if (this.groupIds != null && this.groupIds != 'null') {
 
-      this.groupService.updateGroup(this.groupIds, this.orgID, group_object).subscribe(
+      this.groupService.updateGroup(this.groupIds, group_object).subscribe(
         data => {
-          console.log(data['message']);
+          console.log(data);
+          if (data.status == 200) {
+            this.success_and_warning_errorSwal.type = "success";
+            this.success_and_warning_errorSwal.title = "SUCCESS"
+            this.success_and_warning_errorSwal.text = data.body['message'];
+            this.success_and_warning_errorSwal.show();
+            this.router.navigate(['/app-create-edit-group/' + this.groupIds.toString()], { relativeTo: this.route });
+          } else {
+            this.success_and_warning_errorSwal.type = "error";
+            this.success_and_warning_errorSwal.title = "ERROR"
+            this.success_and_warning_errorSwal.text = data.body['message'];
+            this.success_and_warning_errorSwal.show();
+          }
+
         },
         err => {
           console.log('Something went wrong!');
+          this.success_and_warning_errorSwal.type = "error";
+          this.success_and_warning_errorSwal.title = "ERROR"
+          this.success_and_warning_errorSwal.text = "Something went wrong!";
+          this.success_and_warning_errorSwal.show();
         }
       );
 
@@ -194,12 +228,16 @@ export class CreateEditGroupComponent implements OnInit {
           if (data.status == 200) {
             this.success_and_warning_errorSwal.type = "success";
             this.success_and_warning_errorSwal.title = "SUCCESS"
+            this.success_and_warning_errorSwal.text = data.body['message'];
+            this.success_and_warning_errorSwal.show();
+            this.router.navigate(['/app-groups'], { relativeTo: this.route });
           } else {
             this.success_and_warning_errorSwal.type = "error";
             this.success_and_warning_errorSwal.title = "ERROR"
+            this.success_and_warning_errorSwal.text = data.body['message'];
+            this.success_and_warning_errorSwal.show();
           }
-          this.success_and_warning_errorSwal.text = data.body['message'];
-          this.success_and_warning_errorSwal.show();
+
 
         },
         err => {
