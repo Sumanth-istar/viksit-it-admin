@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { UserService } from '../../../users/userservice/user.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { GroupserviceService } from '../../groupService/groupservice.service';
 import { Group } from '../../../core/pojo/group';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SwalComponent } from '@toverux/ngx-sweetalert2';
 
 @Component({
   selector: 'app-create-edit-group',
@@ -15,6 +16,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class CreateEditGroupComponent implements OnInit {
 
   complex_object
+  @ViewChild('success_and_warning_errorSwal') private success_and_warning_errorSwal: SwalComponent;
+  alertTitle = "Oops...";
+  alertMessage = "Something went wrong!";
+  alertType = "error";
   isActiveLink = 'groups'
   orgID
   groupTypsData = ["UNIT",
@@ -147,8 +152,69 @@ export class CreateEditGroupComponent implements OnInit {
   }
 
   AddSkills() {
-    console.log();
-    this.skillList.push(this.form.value.skills)
+    console.log(this.form.value.skills);
+    if (this.form.value.skills != null) {
+      this.skillList.push(this.form.value.skills)
+    }
+
+  }
+
+  onSubmit() {
+
+    console.log(this.form);
+
+    let group_object = {
+      name: this.form.get('name').value,
+      type: this.form.get('groupType').value,
+      maxStudent: this.form.get('students').value,
+      skills: this.skillList
+    }
+
+    console.log(group_object);
+
+    if (this.groupIds != null && this.groupIds != 'null') {
+
+      this.groupService.updateGroup(this.groupIds, this.orgID, group_object).subscribe(
+        data => {
+          console.log(data['message']);
+        },
+        err => {
+          console.log('Something went wrong!');
+        }
+      );
+
+
+
+    } else {
+
+      this.groupService.createGroup(this.orgID, group_object).subscribe(
+        data => {
+          console.log(data);
+
+          if (data.status == 200) {
+            this.success_and_warning_errorSwal.type = "success";
+            this.success_and_warning_errorSwal.title = "SUCCESS"
+          } else {
+            this.success_and_warning_errorSwal.type = "error";
+            this.success_and_warning_errorSwal.title = "ERROR"
+          }
+          this.success_and_warning_errorSwal.text = data.body['message'];
+          this.success_and_warning_errorSwal.show();
+
+        },
+        err => {
+          console.log('Something went wrong!');
+          this.success_and_warning_errorSwal.type = "error";
+          this.success_and_warning_errorSwal.title = "ERROR"
+          this.success_and_warning_errorSwal.text = "Something went wrong!";
+          this.success_and_warning_errorSwal.show();
+        }
+      );
+
+    }
+
+
+
   }
 
 }

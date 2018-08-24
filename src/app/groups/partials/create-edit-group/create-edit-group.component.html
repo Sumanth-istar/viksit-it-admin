@@ -1,7 +1,8 @@
 <app-nav [isActiveLink]="isActiveLink" [userProfile]="complex_object.studentProfile"></app-nav>
 <div class="jumbotron min-h-100 mb-0">
   <div class="container-fulid h-100">
-
+    <swal #success_and_warning_errorSwal title="{{alertTitle}}" text="{{alertMessage}}" type="{{alertType}}">
+    </swal>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="form-row">
         <div class="form-group col-4">

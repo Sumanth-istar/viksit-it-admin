@@ -39,4 +39,26 @@ export class GroupserviceService {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
     });
   }
+
+  public createGroup(orgId, group_object) {
+
+    const body = new HttpParams()
+      .set('group_object', JSON.stringify(group_object));
+    return this.http.post(AppConfiguration.ServerWithApiUrl + 'group/create/' + orgId, body, {
+      observe: 'response',
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
+    });
+  }
+
+  public updateGroup(userId, orgId, group_object) {
+
+    const body = new HttpParams()
+      .set('group_object', JSON.stringify(group_object));
+    return this.http.post(AppConfiguration.ServerWithApiUrl + 'group/update/' + userId + '/' + orgId, body, {
+      observe: 'response',
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
+    });
+  }
+
+
 }
