@@ -19,7 +19,7 @@ export class NavComponent implements OnInit {
   constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.username = this.userProfile.firstName;
+    this.username = this.userProfile.name;
     this.profilePic = this.userProfile.profileImage;
 
   }
