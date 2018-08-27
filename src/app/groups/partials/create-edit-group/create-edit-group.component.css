@@ -6,6 +6,8 @@
 
 .b-Wizard {
     background-color: #fd6d81;
+    color: #fff;
+    border-color: #dc3545;
 }
 
 .custom-legends-masterylevel-css {
@@ -15,6 +17,8 @@
 
 .b-Master {
     background-color: #7295fd;
+    color: #fff;
+    border-color: #7295fd;
 }
 
 .grp-title-or {

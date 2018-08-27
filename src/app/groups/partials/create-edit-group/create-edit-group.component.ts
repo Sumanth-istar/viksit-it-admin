@@ -166,14 +166,63 @@ export class CreateEditGroupComponent implements OnInit {
   }
 
   skillSelected(skill) {
-    this.tempSkillList.push(skill);
+
+    let skillAlreadyExist = true;
+
+    if (this.tempSkillList.length != 0) {
+
+      for (let s in this.tempSkillList) {
+        if ((this.tempSkillList[s].type && skill.type) === 'COURSE' && this.tempSkillList[s].id === skill.id) {
+          skillAlreadyExist = true;
+          this.tempSkillList.splice(parseInt(s), 1);
+          break;
+        }
+        else if ((this.tempSkillList[s].type && skill.type) === 'SKILL' && this.tempSkillList[s].name === skill.name) {
+          skillAlreadyExist = true;
+          this.tempSkillList.splice(parseInt(s), 1);
+          break;
+        } else {
+          skillAlreadyExist = false;
+        }
+      }
+    } else {
+      skillAlreadyExist = false;
+    }
+
+    if (!skillAlreadyExist) {
+      this.tempSkillList.push(skill);
+    }
+
   }
 
   updateSkill() {
-    for (let skill of this.tempSkillList) {
-      this.skillList.push(skill)
+
+    let skillAlreadyExist = true;
+
+    for (let tempskill of this.tempSkillList) {
+
+      for (let mainskill of this.skillList) {
+        if ((tempskill.type && mainskill.type) === 'COURSE' && tempskill.id == mainskill.id) {
+          skillAlreadyExist = true;
+          break;
+        } else if ((tempskill.type && mainskill.type) === 'SKILL' && tempskill.name === mainskill.name) {
+          skillAlreadyExist = true;
+          break;
+        } else {
+          skillAlreadyExist = false;
+        }
+
+      }
+
+      if (!skillAlreadyExist) {
+        this.skillList.push(tempskill)
+      }
     }
     this.currentModalInstance.close();
+  }
+
+  removeSkill(index) {
+    this.skillList.splice(index, 1);
   }
 
   onSubmit() {
