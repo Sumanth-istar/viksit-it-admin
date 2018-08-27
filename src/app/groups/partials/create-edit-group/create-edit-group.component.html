@@ -77,7 +77,7 @@
             </div>
           </div>
           <div class="card grp-skill">
-            <div class="card-body">
+            <div class="card-body" style="overflow-y: auto !important">
               <div class="d-inline" *ngFor="let skill of skillList; index as i ">
                 <button type="button" [ngClass]="skill.type === 'COURSE' ? 'b-Wizard' : 'b-Master'" class="btn btn-danger btn-sm  mt-3 ml-3 ">
                   {{skill.name}}
