@@ -127,16 +127,37 @@ export class UserService {
   }
 
 
-  public bulkUpload(fileString, fileFormat) {
+  public bulkUpload(file: File, groupId, licenseId, orgId) {
 
-    console.log(fileString);
-    // console.log(fileString);
-    var body = new HttpParams()
-      .set("fileFormat", fileFormat)
-      .set("fileString", fileString);
+    console.log(file);
+    let user_object = {
+      org_id: orgId,
+      licenses: licenseId,
+      groups: groupId
+    }
 
-    return this.http.post(AppConfiguration.ServerWithApiUrl + 'user/bulk_upload_check', body, {
-      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
+    var body = new FormData(document.forms[0]);
+    body.append("file", file, file.name);
+    body.append("user_object", JSON.stringify(user_object));
+    var headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    headers.set('Accept', 'application/json');
+    return this.http.post(AppConfiguration.ServerWithApiUrl + 'user/user_bulk_upload', body, {
+      headers: headers,
+    });
+  }
+
+  public bulkUploadCheck(event) {
+
+    const files: Array<File> = event.target.files;
+
+    var body = new FormData(document.forms[0]);
+    body.append("file", files[0], files[0]['name']);
+    var headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    headers.set('Accept', 'application/json');
+    return this.http.post(AppConfiguration.ServerWithApiUrl + 'user/user_bulk_upload_check', body, {
+      headers: headers,
     });
   }
 

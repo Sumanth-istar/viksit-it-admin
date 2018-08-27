@@ -10,6 +10,11 @@
 
 
   <div class="container-fulid h-100">
+    <div class="row m-0">
+      <div class="col-12">
+        <h4>Users</h4>
+      </div>
+    </div>
     <div class="row m-0 mb-3">
       <div class="col-3">
         <div class="input-group mb-3 w-100">
@@ -17,7 +22,7 @@
             placeholder="Search" aria-describedby="basic-addon1">
           <div class="input-group-prepend">
             <span class="input-group-text custom-bg-colour" id="basic-addon1">
-              <i class="fa fa-search " aria-hidden="true"></i>
+              <i class="fa fa-search text-muted" aria-hidden="true"></i>
             </span>
           </div>
         </div>
@@ -113,7 +118,7 @@
       </div>
       <app-usermodal (updateParent)="createEditUserUpdateHandler($event)" *ngIf="isvalidModal === 'user'" [createUserFormData]="createUserFormData"
         [user]="user"></app-usermodal>
-      <app-bulkuploadmodal *ngIf="isvalidModal  === 'bulkupload'" [createUserFormData]="createUserFormData"></app-bulkuploadmodal>
+      <app-bulkuploadmodal (updateParent)="createEditUserUpdateHandler($event)" *ngIf="isvalidModal  === 'bulkupload'" [createUserFormData]="createUserFormData"></app-bulkuploadmodal>
       <app-changepassword (updateParent)="createEditUserUpdateHandler($event)" *ngIf="isvalidModal  === 'changepassword'" [user]="user"></app-changepassword>
     </ng-template>
   </div>

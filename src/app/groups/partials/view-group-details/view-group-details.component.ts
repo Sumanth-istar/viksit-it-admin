@@ -47,6 +47,7 @@ export class ViewGroupDetailsComponent implements OnInit {
   createUserFormData
   user: User = new User();
   isvalidModal;
+  limits = [10];
   @ViewChild('success_and_warning_errorSwal') private success_and_warning_errorSwal: SwalComponent;
   @ViewChild('suspendWarning') private suspendWarning: SwalComponent;
   constructor(private spinner: NgxSpinnerService, private router: Router, private route: ActivatedRoute, private userservice: UserService, private modalService: NgbModal, private groupService: GroupserviceService) {
@@ -176,7 +177,7 @@ export class ViewGroupDetailsComponent implements OnInit {
       data => {
         this.user = data['data'];
         console.log(this.user);
-        this.modalService.open(content, { size: 'lg' });
+        this.currentModalInstance = this.modalService.open(content, { size: 'lg' });
       },
       // Errors will call this callback instead:
       err => {
@@ -195,7 +196,7 @@ export class ViewGroupDetailsComponent implements OnInit {
       data => {
         this.user = data['data'];
         console.log(this.user);
-        this.modalService.open(content, { size: 'lg' });
+        this.currentModalInstance = this.modalService.open(content, { size: 'lg' });
       },
       // Errors will call this callback instead:
       err => {

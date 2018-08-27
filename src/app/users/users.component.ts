@@ -165,7 +165,7 @@ export class UsersComponent implements OnInit {
       data => {
         this.user = data['data'];
         console.log(this.user);
-        this.modalService.open(content, { size: 'lg' });
+        this.currentModalInstance = this.modalService.open(content, { size: 'lg' });
       },
       // Errors will call this callback instead:
       err => {
@@ -184,7 +184,7 @@ export class UsersComponent implements OnInit {
       data => {
         this.user = data['data'];
         console.log(this.user);
-        this.modalService.open(content, { size: 'lg' });
+        this.currentModalInstance = this.modalService.open(content, { size: 'lg' });
       },
       // Errors will call this callback instead:
       err => {

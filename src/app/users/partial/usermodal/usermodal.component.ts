@@ -115,7 +115,7 @@ export class UsermodalComponent implements OnInit {
 
     this.form = new FormGroup({
       email: new FormControl({ value: this.user.email, disabled: this.user.id != null ? true : false }, Validators.compose([Validators.required, Validators.email])),
-      mobile: new FormControl({ value: this.user.mobile, disabled: this.user.id != null ? true : false }, [Validators.required]),
+      mobile: new FormControl({ value: this.user.mobile, disabled: this.user.id != null ? true : false }, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])),
       name: new FormControl(this.user.name, Validators.compose([Validators.required])),
       address1: new FormControl(this.user.address_line_1, Validators.compose([Validators.required])),
       address2: new FormControl(this.user.address_line_2, Validators.compose([Validators.required])),
