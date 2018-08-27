@@ -79,7 +79,7 @@
           <div class="card grp-skill">
             <div class="card-body" style="overflow-y: auto !important">
               <div class="d-inline" *ngFor="let skill of skillList; index as i ">
-                <button type="button" [ngClass]="skill.type === 'COURSE' ? 'b-Wizard' : 'b-Master'" class="btn btn-danger btn-sm  mt-3 ml-3 ">
+                <button type="button" [ngClass]="skill.type === 'COURSE' ? 'b-Wizard' : 'b-Master'" class="btn btn-sm  mt-3 ml-3 ">
                   {{skill.name}}
                   <i class="fa fa-times grp-remove-icon" (click)="removeSkill(i)" role="button"></i>
                 </button>
