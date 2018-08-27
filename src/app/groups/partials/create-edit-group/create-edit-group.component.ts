@@ -158,9 +158,25 @@ export class CreateEditGroupComponent implements OnInit {
 
   AddSkills() {
     console.log(this.form.value.skills);
+    let skillAlreadyExist = true;
     if (this.form.value.skills != null) {
-      this.skillList.push(this.form.value.skills)
+      let tempskill = this.form.value.skills;
+      for (let mainskill of this.skillList) {
+        if ((tempskill.type && mainskill.type) === 'COURSE' && tempskill.id == mainskill.id) {
+          skillAlreadyExist = true;
+          break;
+        } else if ((tempskill.type && mainskill.type) === 'SKILL' && tempskill.name === mainskill.name) {
+          skillAlreadyExist = true;
+          break;
+        } else {
+          skillAlreadyExist = false;
+        }
 
+      }
+
+      if (!skillAlreadyExist) {
+        this.skillList.push(this.form.value.skills)
+      }
     }
 
   }
