@@ -27,6 +27,9 @@ import { CreateEditGroupComponent } from './groups/partials/create-edit-group/cr
 import { ManagerHierarchyComponent } from './manager/manager-hierarchy/manager-hierarchy.component';
 import { NgxDnDModule } from '@swimlane/ngx-dnd';
 import { LicensesComponent } from './licenses/licenses/licenses.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ProfileSettingsComponent } from './profile/profile-settings/profile-settings.component';
+import { AccountSettingsComponent } from './profile/account-settings/account-settings.component';
 
 
 @NgModule({
@@ -45,7 +48,10 @@ import { LicensesComponent } from './licenses/licenses/licenses.component';
     ViewGroupDetailsComponent,
     CreateEditGroupComponent,
     ManagerHierarchyComponent,
-    LicensesComponent
+    LicensesComponent,
+    ProfileComponent,
+    ProfileSettingsComponent,
+    AccountSettingsComponent
   ],
   imports: [
     BrowserModule,

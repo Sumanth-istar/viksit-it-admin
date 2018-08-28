@@ -1,0 +1,35 @@
+<app-nav [isActiveLink]="isActiveLink" [userProfile]="complex_object.studentProfile"></app-nav>
+<div class="jumbotron min-h-100 mb-0">
+  <div class="container-fulid h-100">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-2">
+            <div class="nav flex-column custom-border-css" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+              <a class="nav-link" [ngClass]="index === 1 ? 'custom-active-css' : ''" (click)="isCollapsed('isCollapsed1')" [attr.aria-expanded]="!isCollapsed1"
+                aria-controls="collapseExample1">Accounts</a>
+              <a class="nav-link" [ngClass]="index === 2 ? 'custom-active-css' : ''" (click)="isCollapsed('isCollapsed2')" [attr.aria-expanded]="!isCollapsed2"
+                aria-controls="collapseExample2">Profile</a>
+
+            </div>
+          </div>
+          <div class="col-10">
+
+            <div class=" fade " id="collapseExample1" [ngbCollapse]="!isCollapsed1">
+
+              <h4>Accounts Setting</h4>
+              <app-account-settings></app-account-settings>
+            </div>
+            <div class=" fade " id="collapseExample2" [ngbCollapse]="!isCollapsed2">
+              <h4>Profile</h4>
+
+              <app-profile-settings></app-profile-settings>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

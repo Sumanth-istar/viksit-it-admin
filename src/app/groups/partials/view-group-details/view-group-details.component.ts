@@ -7,6 +7,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { GroupserviceService } from '../../groupService/groupservice.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
+import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-view-group-details',
@@ -50,6 +52,8 @@ export class ViewGroupDetailsComponent implements OnInit {
   limits = [10];
   @ViewChild('success_and_warning_errorSwal') private success_and_warning_errorSwal: SwalComponent;
   @ViewChild('suspendWarning') private suspendWarning: SwalComponent;
+  private ngUnsubscribe: Subject<any> = new Subject();
+
   constructor(private spinner: NgxSpinnerService, private router: Router, private route: ActivatedRoute, private userservice: UserService, private modalService: NgbModal, private groupService: GroupserviceService) {
     this.groupIds = this.route.snapshot.params.id;
   }
@@ -79,7 +83,7 @@ export class ViewGroupDetailsComponent implements OnInit {
     this.user.state = null;
 
 
-    this.groupService.getGroupDetails(this.groupIds.toString()).subscribe(
+    this.groupService.getGroupDetails(this.groupIds.toString()).takeUntil(this.ngUnsubscribe).subscribe(
       data => {
 
         this.groupDetail = data['data'];
@@ -113,7 +117,7 @@ export class ViewGroupDetailsComponent implements OnInit {
 
   reloadItems(params) {
 
-    this.userservice.getUsers(params, this.counter, this.orgID, this.groupIds, this.licenseIds, this.searchText).subscribe(
+    this.userservice.getUsers(params, this.counter, this.orgID, this.groupIds, this.licenseIds, this.searchText).takeUntil(this.ngUnsubscribe).subscribe(
       // Successful responses call the first callback.
       data => {
         //   console.log(data['data'])
@@ -151,7 +155,7 @@ export class ViewGroupDetailsComponent implements OnInit {
   }
   getUserCreationFormFields() {
 
-    this.userservice.getNewUserCreationFormFields(this.orgID).subscribe(
+    this.userservice.getNewUserCreationFormFields(this.orgID).takeUntil(this.ngUnsubscribe).subscribe(
       data => {
 
         console.log(data['data']);
@@ -172,7 +176,7 @@ export class ViewGroupDetailsComponent implements OnInit {
     this.isvalidModal = value;
     this.modalHeader = "EDIT USER";
     console.log(usrId);
-    this.userservice.getUserDetails(usrId).subscribe(
+    this.userservice.getUserDetails(usrId).takeUntil(this.ngUnsubscribe).subscribe(
       // Successful responses call the first callback.
       data => {
         this.user = data['data'];
@@ -191,7 +195,7 @@ export class ViewGroupDetailsComponent implements OnInit {
     this.isvalidModal = value;
     this.modalHeader = "CHANGE PASSWORD";
     console.log(usrId);
-    this.userservice.getUserDetails(usrId).subscribe(
+    this.userservice.getUserDetails(usrId).takeUntil(this.ngUnsubscribe).subscribe(
       // Successful responses call the first callback.
       data => {
         this.user = data['data'];
@@ -260,7 +264,7 @@ export class ViewGroupDetailsComponent implements OnInit {
 
     let user_ids = { "ids": this.suspendedIds }
 
-    this.userservice.suspendUser(user_ids).subscribe(
+    this.userservice.suspendUser(user_ids).takeUntil(this.ngUnsubscribe).subscribe(
       data => {
         console.log(data['message']);
         let result = ['turn_off_loader', { message: data['message'], type: "SUCCESS" }];
@@ -285,5 +289,11 @@ export class ViewGroupDetailsComponent implements OnInit {
 
   editGroup() {
     this.router.navigate(['/app-create-edit-group/' + this.groupIds.toString()], { relativeTo: this.route });
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    console.log("unsubscribe");
   }
 }

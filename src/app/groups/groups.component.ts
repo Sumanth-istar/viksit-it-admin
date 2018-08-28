@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GroupserviceService } from './groupService/groupservice.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-groups',
@@ -18,6 +20,7 @@ export class GroupsComponent implements OnInit {
   groupData = [];
   groupType
   groupIds
+  private ngUnsubscribe: Subject<any> = new Subject();
   constructor(private router: Router, private route: ActivatedRoute, private groupService: GroupserviceService) { }
 
   ngOnInit() {
@@ -27,7 +30,7 @@ export class GroupsComponent implements OnInit {
     this.orgID = this.complex_object.studentProfile.org_details[0].id
 
 
-    this.groupService.getAllGroups(this.orgID).subscribe(
+    this.groupService.getAllGroups(this.orgID).takeUntil(this.ngUnsubscribe).subscribe(
       data => {
 
         //    console.log(data['data']);
@@ -88,4 +91,11 @@ export class GroupsComponent implements OnInit {
   createGroup() {
     this.router.navigate(['/app-create-edit-group/' + null], { relativeTo: this.route });
   }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    console.log("unsubscribe");
+  }
+
 }

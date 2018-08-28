@@ -5,6 +5,8 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { User } from '../core/pojo/user';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
+import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-users',
@@ -50,7 +52,7 @@ export class UsersComponent implements OnInit {
   user: User = new User();
   isvalidModal;
   limits = [10];
-
+  private ngUnsubscribe: Subject<any> = new Subject();
   constructor(private userservice: UserService, private modalService: NgbModal, private spinner: NgxSpinnerService) {
 
   }
@@ -101,7 +103,7 @@ export class UsersComponent implements OnInit {
 
   reloadItems(params) {
 
-    this.userservice.getUsers(params, this.counter, this.orgID, this.groupIds, this.licenseIds, this.searchText).subscribe(
+    this.userservice.getUsers(params, this.counter, this.orgID, this.groupIds, this.licenseIds, this.searchText).takeUntil(this.ngUnsubscribe).subscribe(
       // Successful responses call the first callback.
       data => {
         //   console.log(data['data'])
@@ -139,7 +141,7 @@ export class UsersComponent implements OnInit {
   }
   getUserCreationFormFields() {
 
-    this.userservice.getNewUserCreationFormFields(this.orgID).subscribe(
+    this.userservice.getNewUserCreationFormFields(this.orgID).takeUntil(this.ngUnsubscribe).subscribe(
       data => {
 
         console.log(data['data']);
@@ -160,7 +162,7 @@ export class UsersComponent implements OnInit {
     this.isvalidModal = value;
     this.modalHeader = "EDIT USER";
     console.log(usrId);
-    this.userservice.getUserDetails(usrId).subscribe(
+    this.userservice.getUserDetails(usrId).takeUntil(this.ngUnsubscribe).subscribe(
       // Successful responses call the first callback.
       data => {
         this.user = data['data'];
@@ -179,7 +181,7 @@ export class UsersComponent implements OnInit {
     this.isvalidModal = value;
     this.modalHeader = "CHANGE PASSWORD";
     console.log(usrId);
-    this.userservice.getUserDetails(usrId).subscribe(
+    this.userservice.getUserDetails(usrId).takeUntil(this.ngUnsubscribe).subscribe(
       // Successful responses call the first callback.
       data => {
         this.user = data['data'];
@@ -248,7 +250,7 @@ export class UsersComponent implements OnInit {
 
     let user_ids = { "ids": this.suspendedIds }
 
-    this.userservice.suspendUser(user_ids).subscribe(
+    this.userservice.suspendUser(user_ids).takeUntil(this.ngUnsubscribe).subscribe(
       data => {
         console.log(data['message']);
         let result = ['turn_off_loader', { message: data['message'], type: "SUCCESS" }];
@@ -263,5 +265,9 @@ export class UsersComponent implements OnInit {
     );
 
   }
-
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    console.log("unsubscribe");
+  }
 }

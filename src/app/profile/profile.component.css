@@ -1,0 +1,13 @@
+.custom-border-css{
+    border-right: 1px solid #dee2e6;
+}
+
+.custom-active-css{
+    
+    border-bottom: 1px solid #dee2e6;
+    border-top: 1px solid #dee2e6;
+    border-left: 1px solid #dee2e6;
+    margin-right: -1px;
+    border-right-color: white;
+    background-color: white;
+}

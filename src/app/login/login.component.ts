@@ -4,6 +4,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
 import { AuthService } from './service/auth.service';
+import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs/Subject';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,6 +17,7 @@ export class LoginComponent implements OnInit {
   @ViewChild('loginerrorSwal') private loginerrorSwal: SwalComponent;
   loginError: string;
   welcome = 'Welcome';
+  private ngUnsubscribe: Subject<any> = new Subject();
   constructor(private router: Router, private route: ActivatedRoute, private spinner: NgxSpinnerService, private auth: AuthService) { }
 
   ngOnInit() {
@@ -58,7 +62,7 @@ export class LoginComponent implements OnInit {
     if (this.form.valid) {
       console.log('form submitted');
       const req = this.auth.authenticate(this.form.get('email').value, this.form.get('password').value);
-      req.subscribe(
+      req.takeUntil(this.ngUnsubscribe).subscribe(
         // Successful responses call the first callback.
         data => {
           this.auth.login(data);
@@ -81,4 +85,11 @@ export class LoginComponent implements OnInit {
       this.loginerrorSwal.show();
     }
   }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    console.log("unsubscribe");
+  }
+
 }

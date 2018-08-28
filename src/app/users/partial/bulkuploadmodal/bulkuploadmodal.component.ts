@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { UserService } from '../../userservice/user.service';
-
+import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs/Subject';
 @Component({
   selector: 'app-bulkuploadmodal',
   templateUrl: './bulkuploadmodal.component.html',
@@ -19,6 +20,8 @@ export class BulkuploadmodalComponent implements OnInit {
   complex_object
   organizationID
   file: File;
+  private ngUnsubscribe: Subject<any> = new Subject();
+
   constructor(private userService: UserService) { }
 
   ngOnInit() {
@@ -41,7 +44,7 @@ export class BulkuploadmodalComponent implements OnInit {
       var reader = new FileReader();
       reader.readAsDataURL(this.file);
       reader.onload = (e) => {
-        this.userService.bulkUploadCheck(event).subscribe(
+        this.userService.bulkUploadCheck(event).takeUntil(this.ngUnsubscribe).subscribe(
           data => {
             console.log(data);
             if (data['errors']) {
@@ -75,7 +78,7 @@ export class BulkuploadmodalComponent implements OnInit {
       var reader = new FileReader();
       reader.readAsDataURL(this.file);
       reader.onload = (e) => {
-        this.userService.bulkUpload(this.file, this.groupId, this.licenseId, this.organizationID).subscribe(
+        this.userService.bulkUpload(this.file, this.groupId, this.licenseId, this.organizationID).takeUntil(this.ngUnsubscribe).subscribe(
           data => {
             console.log(data);
             if (data['errors']) {
@@ -105,4 +108,11 @@ export class BulkuploadmodalComponent implements OnInit {
     data.push(value)
     this.updateParent.emit(data)
   }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    console.log("unsubscribe");
+  }
+
 }

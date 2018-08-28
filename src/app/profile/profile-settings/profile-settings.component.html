@@ -1,0 +1,29 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="form-row">
+    <div class="form-group col-6">
+      <label class="text-muted" for="inputEmail4">Full Name *</label>
+      <input type="text" class="form-control" formControlName="name" name="name" id="name" placeholder="Full Name">
+      <app-error-field [displayError]="formErrors.name" errorMsg="{{formErrors.name}}">
+      </app-error-field>
+    </div>
+
+    <div class="form-group col-6">
+      <label class="text-muted" for="inputEmail4">Email *</label>
+      <input type="email" class="form-control " id="email" formControlName="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+      <app-error-field [displayError]="formErrors.email" errorMsg="{{formErrors.email}}">
+      </app-error-field>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-6">
+      <label class="text-muted" for="inputEmail4">Phone No *</label>
+      <input type="number" class="form-control" formControlName="mobile" name="mobile" id="mobile" placeholder="phone number">
+      <app-error-field [displayError]="formErrors.mobile" errorMsg="{{formErrors.mobile}}">
+      </app-error-field>
+    </div>
+
+  </div>
+  <div class="form-group p-1 m-3">
+    <button type="submit" class="btn btn-danger user-button" [disabled]="!form.valid">Add User</button>
+  </div>
+</form>

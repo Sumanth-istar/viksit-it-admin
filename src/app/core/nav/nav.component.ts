@@ -39,6 +39,9 @@ export class NavComponent implements OnInit {
         this.auth.logout();
         this.router.navigate(['/app-login'], { relativeTo: this.route });
         break;
+      case 'profile':
+        this.router.navigate(['/app-profile'], { relativeTo: this.route });
+        break;
       case 'dashboard':
         this.router.navigate(['/app-dashboard'], { relativeTo: this.route });
         break;

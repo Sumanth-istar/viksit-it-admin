@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ManagerService } from '../managerService/manager.service';
-
+import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs/Subject';
 @Component({
   selector: 'app-manager-hierarchy',
   templateUrl: './manager-hierarchy.component.html',
@@ -19,6 +20,7 @@ export class ManagerHierarchyComponent implements OnInit {
   associates = []
   isCollapsedM = true;
   isCollapsedR = true;
+  private ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(private managerService: ManagerService) { }
 
@@ -34,7 +36,7 @@ export class ManagerHierarchyComponent implements OnInit {
 
   getManagerHierarchy() {
 
-    this.managerService.getManagerHierarchy(this.organizationID)
+    this.managerService.getManagerHierarchy(this.organizationID).takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
 
         console.log(data['data']);
@@ -83,7 +85,7 @@ export class ManagerHierarchyComponent implements OnInit {
 
   onSubmit() {
     console.log(this.targetItems);
-    this.managerService.saveManagerHierarchy(this.targetItems, this.organizationID).subscribe(
+    this.managerService.saveManagerHierarchy(this.targetItems, this.organizationID).takeUntil(this.ngUnsubscribe).subscribe(
       // Successful responses call the first callback.
       data => {
         console.log(data['data']);
@@ -99,4 +101,11 @@ export class ManagerHierarchyComponent implements OnInit {
 
 
   }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    console.log("unsubscribe");
+  }
+
 }

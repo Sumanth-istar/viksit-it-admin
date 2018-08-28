@@ -6,7 +6,8 @@ import { NgOption } from '@ng-select/ng-select';
 import { UserService } from '../../userservice/user.service';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { User } from '../../../core/pojo/user';
-
+import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs/Subject';
 @Component({
   selector: 'app-usermodal',
   templateUrl: './usermodal.component.html',
@@ -51,6 +52,7 @@ export class UsermodalComponent implements OnInit {
     address2: '',
     pincode: ''
   };
+  private ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(private userService: UserService, private validate: CustomValidatorsService) { }
 
@@ -143,7 +145,7 @@ export class UsermodalComponent implements OnInit {
       .pipe(
         debounceTime(2000),
         switchMap(term => this.userService.getPinCodeExist(term))
-      )
+      ).takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
         // console.log(data['data']);
         this.pinCodeData = [];
@@ -164,7 +166,7 @@ export class UsermodalComponent implements OnInit {
       .pipe(
         debounceTime(2000),
         switchMap(term => this.userService.getSkillDetails(term, this.organizationID))
-      )
+      ).takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
 
         this.skillData = [];
@@ -188,7 +190,7 @@ export class UsermodalComponent implements OnInit {
     let skills = { 'skills': this.selectedSkill };
 
     console.log(skills);
-    this.userService.saveUserSkill(skills, this.user.id).subscribe(data => {
+    this.userService.saveUserSkill(skills, this.user.id).takeUntil(this.ngUnsubscribe).subscribe(data => {
 
     }, (err) => {
       console.log('error', err);
@@ -198,7 +200,7 @@ export class UsermodalComponent implements OnInit {
 
   userSkill(usrId) {
     console.log(usrId);
-    this.userService.getUserSkill(usrId).subscribe(
+    this.userService.getUserSkill(usrId).takeUntil(this.ngUnsubscribe).subscribe(
       // Successful responses call the first callback.
       data => {
         this.selectedSkill = data['data'].skills;
@@ -211,7 +213,7 @@ export class UsermodalComponent implements OnInit {
 
   userProfile(usrId) {
     console.log(usrId);
-    this.userService.getUserProfile(usrId).subscribe(
+    this.userService.getUserProfile(usrId).takeUntil(this.ngUnsubscribe).subscribe(
       // Successful responses call the first callback.
       data => {
         this.studProfile = null
@@ -240,7 +242,7 @@ export class UsermodalComponent implements OnInit {
 
   getUserCreationFormFields(orgID) {
 
-    this.userService.getNewUserCreationFormFields(orgID).subscribe(
+    this.userService.getNewUserCreationFormFields(orgID).takeUntil(this.ngUnsubscribe).subscribe(
       data => {
 
         console.log(data['data']);
@@ -320,7 +322,7 @@ export class UsermodalComponent implements OnInit {
 
       } else {
 
-        this.userService.createUser(this.organizationID, user_object).subscribe(
+        this.userService.createUser(this.organizationID, user_object).takeUntil(this.ngUnsubscribe).subscribe(
           data => {
             console.log(data['message']);
             this.updateParentFunction('turn_off_loader', { message: data['message'], type: "SUCCESS" });
@@ -342,5 +344,9 @@ export class UsermodalComponent implements OnInit {
     this.updateParent.emit(data)
   }
 
-
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    console.log("unsubscribe");
+  }
 }
