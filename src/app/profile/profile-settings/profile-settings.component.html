@@ -1,29 +1,60 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="form-row">
-    <div class="form-group col-6">
-      <label class="text-muted" for="inputEmail4">Full Name *</label>
-      <input type="text" class="form-control" formControlName="name" name="name" id="name" placeholder="Full Name">
+  <div class="form-row m-0 my-3">
+    <label class="text-muted col-2" for="inputEmail4">Full Name <div class="text-danger d-inline">*</div></label>
+    <input type="text" class="form-control col-10" formControlName="name" name="name" id="name" placeholder="Full Name">
+    <div class="col-12 offset-md-2">
       <app-error-field [displayError]="formErrors.name" errorMsg="{{formErrors.name}}">
       </app-error-field>
     </div>
-
-    <div class="form-group col-6">
-      <label class="text-muted" for="inputEmail4">Email *</label>
-      <input type="email" class="form-control " id="email" formControlName="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+  </div>
+  <div class="form-row m-0 my-3">
+    <label class="text-muted col-2" for="inputEmail4">Email <div class="text-danger d-inline">*</div></label>
+    <input type="email" class="form-control col-10 " id="email" formControlName="email" name="email" aria-describedby="emailHelp"
+      placeholder="Enter email">
+    <div class="col-12 offset-md-2">
       <app-error-field [displayError]="formErrors.email" errorMsg="{{formErrors.email}}">
       </app-error-field>
     </div>
   </div>
-  <div class="form-row">
-    <div class="form-group col-6">
-      <label class="text-muted" for="inputEmail4">Phone No *</label>
-      <input type="number" class="form-control" formControlName="mobile" name="mobile" id="mobile" placeholder="phone number">
+  <div class="form-row m-0 my-3">
+    <label class="text-muted col-2" for="inputEmail4">Phone No <div class="text-danger d-inline">*</div></label>
+    <input type="number" class="form-control col-10" formControlName="mobile" name="mobile" id="mobile" placeholder="phone number">
+    <div class="col-12 offset-md-2">
       <app-error-field [displayError]="formErrors.mobile" errorMsg="{{formErrors.mobile}}">
       </app-error-field>
     </div>
 
   </div>
-  <div class="form-group p-1 m-3">
-    <button type="submit" class="btn btn-danger user-button" [disabled]="!form.valid">Add User</button>
+
+  <div class="form-row m-0 my-3">
+    <label class="text-muted col-2" for="inputEmail4">Picture</label>
+    <input type="file" accept="image/*" class="form-control col-10" id="exampleFormControlFile1">
+  </div>
+
+  <div class="form-row m-0 my-3">
+    <label class="text-muted col-2" for="inputEmail4">Location</label>
+    <ng-select [items]="locationsList" class="col-10 p-0" [typeahead]="typeahead" bindLabel="name" bindValue="numericCode" labelForId="locations"
+      placeholder="Search For Location" (ngModelChange)="changeLocation()" formControlName="locations"> </ng-select>
+  </div>
+  <div class="form-row m-0 my-3">
+    <label class="text-muted col-2" for="inputEmail4">Languages</label>
+    <ng-select [items]="languagesList" class="col-10 p-0" labelForId="languages" bindLabel="name" bindValue="name" placeholder="Select Languages"
+      formControlName="languages">
+    </ng-select>
+  </div>
+  <div class="form-row m-0 my-3">
+    <label class="text-muted col-2" for="inputEmail4">Currencies</label>
+    <ng-select [items]="currenciesList" class="col-10 p-0" labelForId="currencies" bindLabel="code" bindValue="code" placeholder="Select Time Currencies"
+      formControlName="currencies">
+    </ng-select>
+  </div>
+  <div class="form-row m-0 my-3">
+    <label class="text-muted col-2" for="inputEmail4">Time Zone</label>
+    <ng-select [items]="timezones" class="col-10 p-0" labelForId="timeZone" placeholder="Select Time Zone" formControlName="timeZone">
+    </ng-select>
+  </div>
+
+  <div class="form-group p-1 m-3 float-right">
+    <button type="submit" class="btn btn-danger user-button" [disabled]="!form.valid">Update User</button>
   </div>
 </form>

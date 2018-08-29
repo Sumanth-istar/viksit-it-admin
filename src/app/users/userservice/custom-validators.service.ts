@@ -49,7 +49,7 @@ export class CustomValidatorsService {
         let mobile = control.value + '';
         if (control.value && mobile.length != 10) {
           formErrors[field] = formErrors[field] || messages['mobile'];
-          control.setErrors({ 'incorrect': true });
+          control.setErrors({ 'mobile': true });
         } else if (control.valid && control.value && mobile.length == 10) {
 
           this.userService.getMobileExist(control.value).subscribe(
@@ -58,13 +58,13 @@ export class CustomValidatorsService {
               if (data['data'].message === 'This mobile is valid') {
               } else {
                 formErrors[field] = formErrors[field] || messages['mobileIsNotValid'];
-                control.setErrors({ 'incorrect': true });
+                control.setErrors({ 'mobileIsNotValid': true });
               }
             },
             err => {
               formErrors[field] = formErrors[field] || messages['mobileIsNotValid'];
               console.log('Something went wrong!');
-              control.setErrors({ 'incorrect': true });
+              control.setErrors({ 'mobileIsNotValid': true });
             }
           );
 

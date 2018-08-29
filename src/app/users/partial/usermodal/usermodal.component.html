@@ -6,14 +6,14 @@
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
           <div class="form-row">
             <div class="form-group col-6">
-              <label class="text-muted" for="inputEmail4">Full Name *</label>
+              <label class="text-muted" for="inputEmail4">Full Name <div class="text-danger d-inline">*</div></label>
               <input type="text" class="form-control" formControlName="name" name="name" id="name" placeholder="Full Name">
               <app-error-field [displayError]="formErrors.name" errorMsg="{{formErrors.name}}">
               </app-error-field>
             </div>
 
             <div class="form-group col-6">
-              <label class="text-muted" for="inputEmail4">Email *</label>
+              <label class="text-muted" for="inputEmail4">Email <div class="text-danger d-inline">*</div></label>
               <input type="email" class="form-control " id="email" formControlName="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
               <app-error-field [displayError]="formErrors.email" errorMsg="{{formErrors.email}}">
               </app-error-field>
@@ -21,7 +21,7 @@
           </div>
           <div class="form-row">
             <div class="form-group col-6">
-              <label class="text-muted" for="inputEmail4">Phone No *</label>
+              <label class="text-muted" for="inputEmail4">Phone No <div class="text-danger d-inline">*</div></label>
               <input type="number" class="form-control" formControlName="mobile" name="mobile" id="mobile" placeholder="phone number">
               <app-error-field [displayError]="formErrors.mobile" errorMsg="{{formErrors.mobile}}">
               </app-error-field>
@@ -29,7 +29,7 @@
 
 
             <div class="form-group col-6">
-              <label class="text-muted" for="inputEmail4">Pincode *</label>
+              <label class="text-muted" for="inputEmail4">Pincode <div class="text-danger d-inline">*</div></label>
 
               <ng-select [items]="pinCodeData" [typeahead]="typeahead" bindLabel="itemName" bindValue="itemName" labelForId="pincode" placeholder="Search For PinCode"
                 formControlName="pincode">
@@ -41,7 +41,7 @@
           </div>
           <div class="form-row">
             <div class="form-group col-6">
-              <label class="text-muted" for="inputEmail4">Address Line 1 *</label>
+              <label class="text-muted" for="inputEmail4">Address Line 1 <div class="text-danger d-inline">*</div></label>
               <input type="text" class="form-control " formControlName="address1" name="address1" id="address1" placeholder="Address line 1">
               <app-error-field [displayError]="formErrors.address1" errorMsg="{{formErrors.address1}}">
               </app-error-field>
@@ -49,7 +49,7 @@
 
 
             <div class="form-group col-6">
-              <label class="text-muted" for="inputEmail4">Address Line 2 *</label>
+              <label class="text-muted" for="inputEmail4">Address Line 2 <div class="text-danger d-inline">*</div></label>
               <input type="text" class="form-control " id="address2" formControlName="address2" name="address2" aria-describedby="pincodeHelp"
                 placeholder="Address line 1">
               <app-error-field [displayError]="formErrors.address2" errorMsg="{{formErrors.address2}}">
@@ -59,7 +59,7 @@
 
           <div class="form-row">
             <div class="form-group col-6">
-              <label class="text-muted" for="inputEmail4">User Type *</label>
+              <label class="text-muted" for="inputEmail4">User Type <div class="text-danger d-inline">*</div></label>
               <ng-select [multiple]="true" [items]="userTypeData" bindLabel="name" bindValue="id" labelForId="userType" placeholder="Select User Type"
                 formControlName="userType">
               </ng-select>
@@ -68,7 +68,7 @@
             </div>
 
             <div class="form-group col-6">
-              <label class="text-muted" for="inputEmail4">Organization *</label>
+              <label class="text-muted" for="inputEmail4">Organization <div class="text-danger d-inline">*</div></label>
 
               <ng-select [items]="orgData" (ngModelChange)="changeOrg()" bindLabel="name" bindValue="id" labelForId="org" placeholder="Select Organization"
                 formControlName="org">
