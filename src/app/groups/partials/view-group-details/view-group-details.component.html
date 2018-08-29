@@ -5,7 +5,7 @@
     <swal #success_and_warning_errorSwal title="{{alertTitle}}" text="{{alertMessage}}" type="{{alertType}}">
     </swal>
 
-    <swal #suspendWarning title="Warning" text="Are You Sure ? Do You To Suspend This User" type="question" [showCancelButton]="true"
+    <swal #suspendWarning title="Warning" text="Are You Sure ? Do You Want To Suspend This User" type="question" [showCancelButton]="true"
       [focusCancel]="true" (confirm)="suspendUser()">
     </swal>
     <div class='row  mb-3'>

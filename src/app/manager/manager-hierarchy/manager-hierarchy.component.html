@@ -68,7 +68,7 @@
         </div>
         <div id="collapseExampleM" [ngbCollapse]="isCollapsedM">
           <div class="ngx-dnd-container px-2 bg-white min-h-50 custom-border" ngxDroppable="restricted-target2" [model]="managers">
-            <h6 class="text-center card p-2 mt-1" *ngIf="managers.length != 0 ? '':'d-none'">No Associates Added</h6>
+            <h6 class="text-center card p-2 mt-1" *ngIf="managers.length != 0 ? '':'d-none'">No Manager Added</h6>
             <div class="ngx-dnd-item card p-3 cursor_pointer mx-2 mt-1 mb-1 custom-box" ngxDraggable="['restricted-target2']" [model]="item"
               *ngFor="let item of managers">
               <div class="row">
