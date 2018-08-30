@@ -18,9 +18,11 @@
         </data-table-column>
         <data-table-column [property]="'name'" [header]="'Name'" [sortable]="true" [width]="150">
         </data-table-column>
-        <data-table-column property="total_count" header="Total License" [sortable]="true" [width]="150">
+        <data-table-column [property]="'course'" [header]="'Course'" [width]="150">
         </data-table-column>
-        <data-table-column [property]="'available_count'" [header]="'Available License'" [sortable]="true" [width]="150">
+        <data-table-column property="total_count" header="Total License" [width]="150">
+        </data-table-column>
+        <data-table-column [property]="'available_count'" [header]="'Available License'" [width]="150">
         </data-table-column>
         <data-table-column [property]="'purchase_date'" [header]="'Purchase Date'" [width]="150">
         </data-table-column>
@@ -58,7 +60,68 @@
           </div>
         </div>
       </div>
-      <div class="modal-body p-5"></div>
+      <div class="modal-body p-5">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+
+
+          <div class="form-row">
+            <div class="form-group col-12">
+              <label class="text-muted" for="inputEmail4">License Type<div class="text-danger d-inline">*</div></label>
+
+              <ng-select [items]="licenseTypeData" bindLabel="name" bindValue="id" labelForId="licenseType" placeholder="Select License Type"
+                formControlName="licenseType">
+              </ng-select>
+
+              <app-error-field [displayError]="formErrors.license" errorMsg="{{formErrors.license}}">
+              </app-error-field>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-12">
+              <label class="text-muted" for="inputEmail4">Courses<div class="text-danger d-inline">*</div></label>
+
+              <ng-select [multiple]="true" [items]="courseData" bindLabel="name" bindValue="id" labelForId="courses" placeholder="Select Courses"
+                formControlName="courses">
+              </ng-select>
+              <app-error-field [displayError]="formErrors.courses" errorMsg="{{formErrors.courses}}">
+              </app-error-field>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-12">
+              <label class="text-muted" for="inputEmail4">User<div class="text-danger d-inline">*</div></label>
+              <input type="number" class="form-control" formControlName="users" name="users" id="users" placeholder="user count">
+              <app-error-field [displayError]="formErrors.users" errorMsg="{{formErrors.users}}">
+              </app-error-field>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-12">
+              <label for="dateOfBirth">Expire Date</label>
+              <div class="input-group">
+                <input id="dateOfBirth" class="form-control" formControlName="expireDate" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker
+                  #dp="ngbDatepicker">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button">
+                    <i class="far fa-calendar-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group p-1 m-3">
+            <button type="submit" class="btn btn-danger user-button" [disabled]="!form.valid">Buy and Update</button>
+          </div>
+        </form>
+
+
+
+      </div>
     </ng-template>
 
   </div>
