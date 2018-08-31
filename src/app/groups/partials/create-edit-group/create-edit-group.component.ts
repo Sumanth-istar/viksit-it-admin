@@ -221,17 +221,22 @@ export class CreateEditGroupComponent implements OnInit {
 
     for (let tempskill of this.tempSkillList) {
 
-      for (let mainskill of this.skillList) {
-        if ((tempskill.type && mainskill.type) === 'COURSE' && tempskill.id == mainskill.id) {
-          skillAlreadyExist = true;
-          break;
-        } else if ((tempskill.type && mainskill.type) === 'SKILL' && tempskill.name === mainskill.name) {
-          skillAlreadyExist = true;
-          break;
-        } else {
-          skillAlreadyExist = false;
-        }
+      if (this.skillList.length != 0) {
 
+        for (let mainskill of this.skillList) {
+          if ((tempskill.type && mainskill.type) === 'COURSE' && tempskill.id == mainskill.id) {
+            skillAlreadyExist = true;
+            break;
+          } else if ((tempskill.type && mainskill.type) === 'SKILL' && tempskill.name === mainskill.name) {
+            skillAlreadyExist = true;
+            break;
+          } else {
+            skillAlreadyExist = false;
+          }
+
+        }
+      } else {
+        skillAlreadyExist = false;
       }
 
       if (!skillAlreadyExist) {
