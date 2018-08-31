@@ -82,6 +82,13 @@ export class ViewGroupDetailsComponent implements OnInit {
     this.user.user_roles = null;
     this.user.state = null;
 
+    this.getGroupDetails();
+
+
+
+  }
+
+  getGroupDetails() {
 
     this.groupService.getGroupDetails(this.groupIds.toString()).takeUntil(this.ngUnsubscribe).subscribe(
       data => {
@@ -95,8 +102,10 @@ export class ViewGroupDetailsComponent implements OnInit {
       }
     );
 
-
   }
+
+
+
   open(content, value) {
 
 
@@ -230,6 +239,7 @@ export class ViewGroupDetailsComponent implements OnInit {
         this.success_and_warning_errorSwal.show();
       }
     }
+    this.getGroupDetails();
     this.reloadItems({ offset: 0, limit: 10 })
   }
   //more filter

@@ -9,6 +9,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
 import 'rxjs/add/operator/takeUntil';
 import { Subject } from 'rxjs/Subject';
+import { NgxSpinnerService } from 'ngx-spinner';
+
 @Component({
   selector: 'app-create-edit-group',
   templateUrl: './create-edit-group.component.html',
@@ -49,7 +51,7 @@ export class CreateEditGroupComponent implements OnInit {
   };
   private ngUnsubscribe: Subject<any> = new Subject();
 
-  constructor(private router: Router, private route: ActivatedRoute, private userService: UserService, private groupService: GroupserviceService, private modalService: NgbModal) {
+  constructor(private router: Router, private route: ActivatedRoute, private userService: UserService, private groupService: GroupserviceService, private modalService: NgbModal, private spinner: NgxSpinnerService) {
     this.groupIds = this.route.snapshot.params.id;
   }
 
@@ -253,7 +255,7 @@ export class CreateEditGroupComponent implements OnInit {
   onSubmit() {
 
     console.log(this.form);
-
+    this.spinner.show();
     let group_object = {
       name: this.form.get('name').value,
       type: this.form.get('groupType').value,
@@ -272,12 +274,14 @@ export class CreateEditGroupComponent implements OnInit {
             this.success_and_warning_errorSwal.type = "success";
             this.success_and_warning_errorSwal.title = "SUCCESS"
             this.success_and_warning_errorSwal.text = data.body['message'];
+            this.spinner.hide();
             this.success_and_warning_errorSwal.show();
             this.router.navigate(['/app-create-edit-group/' + this.groupIds.toString()], { relativeTo: this.route });
           } else {
             this.success_and_warning_errorSwal.type = "error";
             this.success_and_warning_errorSwal.title = "ERROR"
             this.success_and_warning_errorSwal.text = data.body['message'];
+            this.spinner.hide();
             this.success_and_warning_errorSwal.show();
           }
 
