@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ManagerService } from '../managerService/manager.service';
 import 'rxjs/add/operator/takeUntil';
 import { Subject } from 'rxjs/Subject';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { SwalComponent } from '@toverux/ngx-sweetalert2';
 
 @Component({
   selector: 'app-manager-hierarchy',
@@ -23,6 +24,7 @@ export class ManagerHierarchyComponent implements OnInit {
   isCollapsedM = true;
   isCollapsedR = true;
   private ngUnsubscribe: Subject<any> = new Subject();
+  @ViewChild('loginerrorSwal') private loginerrorSwal: SwalComponent;
 
   constructor(private managerService: ManagerService, private spinner: NgxSpinnerService) { }
 
@@ -75,8 +77,9 @@ export class ManagerHierarchyComponent implements OnInit {
         console.log(this.targetItems);
 
         setTimeout(() => {
-          alert("User already Assigned to this Manager");
-        }, 500);
+          // alert("User already Assigned to this Manager");
+          this.loginerrorSwal.show();
+        }, 900);
 
       }
   }
