@@ -83,7 +83,7 @@
             <div class="form-group col-6">
               <label class="text-muted" for="inputEmail4">Job Role
               </label>
-              <ng-select [items]="jobRoleData" bindLabel="text" bindValue="id" [multiple]="true" [(ngModel)]="jobRoleId" [ngModelOptions]="{standalone: true}"
+              <ng-select [items]="jobRoleData" bindLabel="name" bindValue="id" [multiple]="true" [(ngModel)]="jobRoleId" [ngModelOptions]="{standalone: true}"
                 placeholder="Select jobRole">
               </ng-select>
 
@@ -121,7 +121,7 @@
           </div>
 
           <div class="form-group p-1 m-3">
-            <button type="submit" class="btn btn-danger user-button" [disabled]="!form.valid">Add User</button>
+            <button type="submit" class="btn btn-danger user-button" [disabled]="!form.valid">{{submitBtnText}}</button>
           </div>
         </form>
       </ng-template>

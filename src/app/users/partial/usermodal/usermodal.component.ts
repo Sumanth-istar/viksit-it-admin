@@ -42,6 +42,7 @@ export class UsermodalComponent implements OnInit {
   selectedSkill;
   studProfile;
   courses;
+  submitBtnText = "Add User";
   public formErrors = {
     name: '',
     email: '',
@@ -75,6 +76,7 @@ export class UsermodalComponent implements OnInit {
 
       this.userSkill(this.user.id);
       this.userProfile(this.user.id);
+      this.submitBtnText = "Update User"
 
       this.licenseData = this.user.licenses
       this.groupData = this.user.groups;
