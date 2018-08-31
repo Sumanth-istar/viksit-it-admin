@@ -65,9 +65,26 @@ export class LoginComponent implements OnInit {
       req.takeUntil(this.ngUnsubscribe).subscribe(
         // Successful responses call the first callback.
         data => {
-          this.auth.login(data);
-          this.spinner.hide();
-          this.router.navigate(['/app-dashboard'], { relativeTo: this.route });
+          if (data['studentProfile'].userType && data['studentProfile'].userType === 'IT_ADMIN') {
+
+            this.auth.login(data);
+            this.spinner.hide();
+            this.router.navigate(['/app-dashboard'], { relativeTo: this.route });
+
+          } else if (data['studentProfile'].userRoles && data['studentProfile'].userRoles.includes('IT_ADMIN')) {
+
+            this.auth.login(data);
+            this.spinner.hide();
+            this.router.navigate(['/app-dashboard'], { relativeTo: this.route });
+
+          } else {
+
+            this.spinner.hide();
+            this.loginerrorSwal.text = "User is not Authorised "
+            this.loginerrorSwal.show();
+          }
+
+
         },
         // Errors will call this callback instead:
         err => {
