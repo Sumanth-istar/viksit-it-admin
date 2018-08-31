@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ManagerService } from '../managerService/manager.service';
 import 'rxjs/add/operator/takeUntil';
 import { Subject } from 'rxjs/Subject';
+import { NgxSpinnerService } from 'ngx-spinner';
+
 @Component({
   selector: 'app-manager-hierarchy',
   templateUrl: './manager-hierarchy.component.html',
@@ -22,7 +24,7 @@ export class ManagerHierarchyComponent implements OnInit {
   isCollapsedR = true;
   private ngUnsubscribe: Subject<any> = new Subject();
 
-  constructor(private managerService: ManagerService) { }
+  constructor(private managerService: ManagerService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
 
@@ -85,6 +87,7 @@ export class ManagerHierarchyComponent implements OnInit {
 
   onSubmit() {
     console.log(this.targetItems);
+    this.spinner.show();
     this.managerService.saveManagerHierarchy(this.targetItems, this.organizationID).takeUntil(this.ngUnsubscribe).subscribe(
       // Successful responses call the first callback.
       data => {
@@ -92,11 +95,12 @@ export class ManagerHierarchyComponent implements OnInit {
         this.targetItems = data['data'].targetArray;
         this.managers = data['data'].sourceManagerArray;
         this.associates = data['data'].sourceReporteesArray
-
+        this.spinner.hide();
       },
       // Errors will call this callback instead:
       err => {
         console.log('Something went wrong!');
+        this.spinner.hide();
       });
 
 
