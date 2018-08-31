@@ -26,7 +26,6 @@ export class CreateEditGroupComponent implements OnInit {
   skillerrorMessage;
   groupTypsData = ["UNIT",
     "PRODUCT",
-    "SALES_TEAM",
     "SECTION",
     "JOB_ROLE",
     "DEPARTMENT"];
