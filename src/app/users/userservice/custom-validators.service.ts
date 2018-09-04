@@ -29,7 +29,7 @@ export class CustomValidatorsService {
 
             this.userService.getUserExist(control.value).subscribe(
               data => {
-                console.log(data['data'])
+                //   console.log(data['data'])
                 if (data['data'].message === 'This email is valid') {
                 } else {
                   formErrors[field] = formErrors[field] || messages['emailIsNotValid'];
@@ -54,7 +54,7 @@ export class CustomValidatorsService {
 
           this.userService.getMobileExist(control.value).subscribe(
             data => {
-              console.log(data['data'])
+              //   console.log(data['data'])
               if (data['data'].message === 'This mobile is valid') {
               } else {
                 formErrors[field] = formErrors[field] || messages['mobileIsNotValid'];

@@ -46,7 +46,7 @@ export class ChangepasswordComponent implements OnInit {
 
     this.userService.resetUserPassword(this.user.id, password).takeUntil(this.ngUnsubscribe).subscribe(
       data => {
-        console.log(data['message']);
+        //  console.log(data['message']);
         this.updateParentFunction('turn_off_loader', { message: data['message'], type: "SUCCESS" });
       },
       err => {

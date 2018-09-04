@@ -38,7 +38,7 @@ export class BulkuploadmodalComponent implements OnInit {
     this.formValid = true;
     this.formErrors = []
     this.file = event.target.files[0]
-    console.log(event);
+    // console.log(event);
     if (this.file.name.split('.')[1]) {
 
       var reader = new FileReader();
@@ -46,7 +46,7 @@ export class BulkuploadmodalComponent implements OnInit {
       reader.onload = (e) => {
         this.userService.bulkUploadCheck(event).takeUntil(this.ngUnsubscribe).subscribe(
           data => {
-            console.log(data);
+            //   console.log(data);
             if (data['errors']) {
               this.formErrors = data['errors'];
             } else if (data['message'] === 'successful') {
@@ -72,7 +72,7 @@ export class BulkuploadmodalComponent implements OnInit {
 
     this.formValid = false;
     this.formErrors = []
-    console.log(event);
+    //  console.log(event);
     if (this.file.name.split('.')[1]) {
       this.updateParentFunction('turn_on_loader', null)
       var reader = new FileReader();
@@ -80,7 +80,7 @@ export class BulkuploadmodalComponent implements OnInit {
       reader.onload = (e) => {
         this.userService.bulkUpload(this.file, this.groupId, this.licenseId, this.organizationID).takeUntil(this.ngUnsubscribe).subscribe(
           data => {
-            console.log(data);
+            //   console.log(data);
             if (data['errors']) {
               this.formErrors = data['errors'];
               this.updateParentFunction('turn_off_loader', { message: 'Something went wrong!', type: "ERROR" });

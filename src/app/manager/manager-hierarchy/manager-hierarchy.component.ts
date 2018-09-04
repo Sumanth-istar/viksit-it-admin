@@ -43,7 +43,7 @@ export class ManagerHierarchyComponent implements OnInit {
     this.managerService.getManagerHierarchy(this.organizationID).takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
 
-        console.log(data['data']);
+        //  console.log(data['data']);
 
         this.targetItems = data['data'].targetArray;
         this.managers = data['data'].sourceManagerArray;
@@ -67,14 +67,14 @@ export class ManagerHierarchyComponent implements OnInit {
   }
 
   public checkUserExists(event, index) {
-    console.log(event);
-    console.log(index);
+    // console.log(event);
+    // console.log(index);
 
     for (let i in this.targetItems[index].children)
       if (event.value.id == this.targetItems[index].children[i].id) {
 
         this.targetItems[index].children.splice(i, 1);
-        console.log(this.targetItems);
+        //   console.log(this.targetItems);
 
         setTimeout(() => {
           // alert("User already Assigned to this Manager");
@@ -89,12 +89,12 @@ export class ManagerHierarchyComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.targetItems);
+    //  console.log(this.targetItems);
     this.spinner.show();
     this.managerService.saveManagerHierarchy(this.targetItems, this.organizationID).takeUntil(this.ngUnsubscribe).subscribe(
       // Successful responses call the first callback.
       data => {
-        console.log(data['data']);
+        //    console.log(data['data']);
         this.targetItems = data['data'].targetArray;
         this.managers = data['data'].sourceManagerArray;
         this.associates = data['data'].sourceReporteesArray

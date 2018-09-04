@@ -93,7 +93,7 @@ export class UserService {
 
   public saveUserSkill(skills, userId) {
 
-    console.log(skills);
+    //  console.log(skills);
 
     const body = new HttpParams()
       .set('user_object', JSON.stringify(skills));
@@ -129,7 +129,7 @@ export class UserService {
 
   public bulkUpload(file: File, groupId, licenseId, orgId) {
 
-    console.log(file);
+    //  console.log(file);
     let user_object = {
       org_id: orgId,
       licenses: licenseId,

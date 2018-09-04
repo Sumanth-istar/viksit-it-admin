@@ -122,7 +122,7 @@ export class LicensesComponent implements OnInit {
 
   onSubmit() {
 
-    console.log(this.form);
+    //  console.log(this.form);
     let users = this.form.get('users').value + '';
     let licenseType = this.form.get('licenseType').value + '';
     let courses = this.form.get('courses').value;
@@ -132,12 +132,12 @@ export class LicensesComponent implements OnInit {
       expireDate = date.month + '/' + date.day + '/' + date.year
     }
     let license_object = { license_id: licenseType, license_count: users, course_ids: courses, expire_date: expireDate }
-    console.log(license_object);
+    //  console.log(license_object);
 
 
     this.licenseService.buyLicense(this.orgID, license_object).subscribe(
       data => {
-        console.log(data['message']);
+        // console.log(data['message']);
         this.reloadItems({ offset: 0, limit: 10 })
       },
       err => {

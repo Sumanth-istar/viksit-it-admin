@@ -63,7 +63,7 @@ export class GroupsComponent implements OnInit {
   }
   groupFilter() {
 
-    console.log(this.groupIds);
+    //  console.log(this.groupIds);
     if (this.groupIds.length != 0) {
       this.groups = this.groupsData.filter((item: any) => this.groupIds.includes(item.name));
     } else {
@@ -72,7 +72,7 @@ export class GroupsComponent implements OnInit {
 
   }
   groupTypesFilter() {
-    console.log(this.groupType);
+    // console.log(this.groupType);
     if (this.groupType.length != 0) {
       this.groups = this.groupsData.filter((item: any) => this.groupType.includes(item.group_type));
     } else {
@@ -83,7 +83,7 @@ export class GroupsComponent implements OnInit {
 
 
   goToGroupDetail(id) {
-    console.log(id)
+    // console.log(id)
     this.router.navigate(['/app-view-group-details/' + id], { relativeTo: this.route });
 
   }

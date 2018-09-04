@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.spinner.show();
     if (this.form.valid) {
-      console.log('form submitted');
+      // console.log('form submitted');
       const req = this.auth.authenticate(this.form.get('email').value, this.form.get('password').value);
       req.takeUntil(this.ngUnsubscribe).subscribe(
         // Successful responses call the first callback.
@@ -96,7 +96,7 @@ export class LoginComponent implements OnInit {
         }
       );
     } else {
-      console.log('form invalid');
+      //   console.log('form invalid');
       this.spinner.hide();
       this.loginerrorSwal.text = 'Something went wrong!'
       this.loginerrorSwal.show();

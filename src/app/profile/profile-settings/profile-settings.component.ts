@@ -74,7 +74,7 @@ export class ProfileSettingsComponent implements OnInit {
         debounceTime(2000),
         switchMap(term => this.profileService.getLocation(this.organizationID, term))
       ).subscribe(data => {
-        console.log(data['data']);
+        //    console.log(data['data']);
         this.locationsList = data['data'];
       }, (err) => {
         console.log('error', err);
@@ -84,7 +84,7 @@ export class ProfileSettingsComponent implements OnInit {
   }
 
   changeLocation() {
-    console.log(this.form.get('locations').value);
+    //  console.log(this.form.get('locations').value);
     let numeric_code = this.form.get('locations').value
     this.currenciesList = []
     this.languagesList = [];
